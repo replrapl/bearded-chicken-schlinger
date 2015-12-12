@@ -20,7 +20,7 @@ var Amish = function(game, x, y) {
 
   // time window
   this.foodTime = 0;
-  this.isFiring = false;
+  this.isWindingUp = false;
   this.windup = 0;
 
   // Health pool
@@ -58,7 +58,7 @@ Amish.prototype.update = function() {
     this.harm(2);
   }
 
-  if(this.isFiring){
+  if(this.isWindingUp){
     this.windup += 10;
     if(this.windup > 500){
       this.windup = 500
@@ -67,10 +67,11 @@ Amish.prototype.update = function() {
 
   // fats
   if (this.game.input.activePointer.leftButton.isDown) {
-    this.isFiring = true;
+    this.isWindingUp = true;
     console.log("WINDING UP:", this.windup)
-  } else if(this.isFiring){
-    this.isFiring = false;
+  } else if(this.isWindingUp){
+    // only fire when button is released
+    this.isWindingUp = false;
     this.schling(this.windup);
     this.windup = 0;
     console.log("DONE")

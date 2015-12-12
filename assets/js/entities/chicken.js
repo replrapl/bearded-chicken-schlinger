@@ -3,8 +3,13 @@ Chicken = function(index, x, y, game){
   this.game = game;
   this.girth = 1;
   this.direction = 1;
+  
+  this.bounding = game.add.sprite(2000, 2000, 'chicky');
+  this.game.physics.enable(this.bounding, Phaser.Physics.ARCADE);
+  this.bounding.body.setSize(2000, 2000, 500, 16)
+  console.log("==+++",this.bounding)
+
   this.body = game.add.sprite(80, 80, 'chicky');
-  this.bounding = game.add.sprite(1000, 1000);
   this.game.physics.enable(this.body, Phaser.Physics.ARCADE);
   this.body.position.x = x;
   this.body.position.y = y;
@@ -66,20 +71,45 @@ Chicken.prototype.startWander = function(time){
   this.loop = setInterval(this.loop.bind(this), time)
 }
 
-Chicken.prototype.collided = function(foods){
-  // console.log(foods[0])
-  //  Run collision
-  // this.game.physics.arcade.overlap(foods[0], this.body, function(a, b){
-  //   console.log("-->", a, b)
-  // }, null, this);
+Chicken.prototype.collided = function(foods, distance){
+  // Run collision
+
+  for(var i = 0 ; i < foods.children.length ; i++){
+    var f_x = foods.children[i].position.x,
+      f_y = foods.children[i].position.y,
+      x = this.body.position.x,
+      y = this.body.position.y;
+
+      var d = Math.sqrt(Math.pow(y - f_y, 2) + Math.pow(x - f_x, 2))
+
+      if(d < distance){
+        var h, v;
+        if((x - f_x) > 0){
+          h = -1 // food on left
+        } else {
+          h = 1 // food on right
+        }
+        if ((y - f_y) > 0){
+          v = 1 // food above
+        } else {
+          v = -1 // food below
+        }
+        return {x: h, y: v}
+      }
+      return
+  }
+
+  /*game.physics.arcade.overlap(this.bounding, foods.children, function(a,b){
+    console.log('-++++-', a, b)
+  }, null, this);*/
 }
 
-Chicken.prototype.foodNearby = function(foods){
+/*Chicken.prototype.foodNearby = function(foods){
   //  Run collision
-  // this.game.physics.arcade.overlap(foods, this.bounding, function(a, b){
-  //   console.log('====>', a, b)
-  // }, null, this);
-}
+  this.game.physics.arcade.overlap([foods], this.bounding, function(a, b){
+    console.log('====>', a, b)
+  }, null, this);
+}*/
 
 // lays an egg
 Chicken.prototype.layEgg = function(){
@@ -89,7 +119,6 @@ Chicken.prototype.layEgg = function(){
 
   // prevents too many egg layings in a short amount of time
   if (this.game.time.now > this.eggTime) {
-    console.log('a;dfksadfskl;dfslkj')
     // move
     this.tweenHeight(-100, 1)
     // lose weight
@@ -131,7 +160,24 @@ Chicken.prototype.poo = function(){
 }
 
 // checks key presses and positions
-Chicken.prototype.update = function(){
+Chicken.prototype.update = function(avoidMes /* array of things to avoid */){
+
+  if(avoidMes){
+    var coordinates = {};
+    // avoids
+    for(var i = 0 ; i < avoidMes.length ; i++){
+      coordinates = this.collided(avoidMes[i], 500)
+    }
+
+    // dies
+    for(var i = 0 ; i < avoidMes.length ; i++){
+      this.collided(avoidMes[i], 100)
+    }
+
+    if(coordinates){
+      this.avoidObstacle(coordinates.x, coordinates.y)
+    }
+  }
 
   if(Math.abs(this.stepSize) > 0){
     this.velocityY -= Math.sign(this.velocityY) * this.stepSize;
