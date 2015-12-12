@@ -36,8 +36,9 @@ Chicken = function(index, x, y, game){
   this.eggs.setAll('anchor.y', 1);
   this.eggs.setAll('outOfBoundsKill', true);
   this.eggs.setAll('checkWorldBounds', true);
-
+  // button
   this.eggButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+  // time window
   this.eggTime = 0;
 
 
@@ -50,12 +51,14 @@ Chicken = function(index, x, y, game){
   this.poos.setAll('anchor.y', 1);
   this.poos.setAll('outOfBoundsKill', true);
   this.poos.setAll('checkWorldBounds', true);
-
+  // button
   this.pooButton = this.game.input.keyboard.addKey(Phaser.Keyboard.BACKSPACE);
+  // time window
   this.pooTime = 0;
 
-
+  // button
   this.fattenButton = this.game.input.keyboard.addKey(Phaser.Keyboard.CONTROL);
+  // time window
   this.fatTime = 0;
 }
 
@@ -65,10 +68,19 @@ Chicken.prototype.startWander = function(time){
 
 // lays an egg
 Chicken.prototype.layEgg = function(){
-  this.tweenHeight(-100, -1)
-  this.loseWeight(this.eggStepSize)
+  if(this.girth <= 1){
+    return
+  }
+  
   // prevents too many egg layings in a short amount of time
   if (this.game.time.now > this.eggTime) {
+
+    // move
+    this.tweenHeight(-100, 1)
+    // lose weight
+    this.loseWeight()
+
+    // handle eggs
     var egg = this.eggs.getFirstExists(false);
     if (egg) {
       egg.reset(chick.body.position.x, chick.body.position.y);
@@ -79,10 +91,21 @@ Chicken.prototype.layEgg = function(){
 }
 // drop a poo
 Chicken.prototype.poo = function(){
-  this.tweenHeight(-2000, -10)
-  this.loseWeight(this.pooStepSize)
+  if(this.girth <= 1){
+    return
+  }
+  
   // prevents too many poos from being dropped in a short amount of time
   if (this.game.time.now > this.pooTime) {
+
+    // move
+    this.tweenHeight(-200, 1)
+    // lose weight
+    for(var i = 0 ; i < 3 ; i++){
+      this.loseWeight()
+    }
+
+    // handle poo
     var poo = this.poos.getFirstExists(false);
     if (poo) {
       poo.reset(chick.body.position.x, chick.body.position.y);
@@ -94,22 +117,30 @@ Chicken.prototype.poo = function(){
 
 // checks key presses and positions
 Chicken.prototype.update = function(){
+
   if(Math.abs(this.stepSize) > 0){
-    this.body.position.y += this.stepSize;
-    this.velocityY -= this.stepSize;
-    if(this.velocityY < 0.25){
+    this.velocityY -= Math.sign(this.velocityY) * this.stepSize;
+    this.body.position.y += Math.sign(this.velocityY) * this.stepSize;
+
+    if(Math.abs(this.velocityY) < 0.25){
       this.velocityY = 0;
       this.stepSize = 0;
     }
   }
+
+  // eggs
   if (this.eggButton.isDown) {
     this.layEgg();
   }
+
+  // poos
   if (this.pooButton.isDown) {
     this.poo();
   }
+
+  // fats
   if (this.fattenButton.isDown) {
-    this.fatten(0.2);
+    this.fatten();
   }
 }
 // start a vertical tween
@@ -137,38 +168,48 @@ Chicken.prototype.changeDirection = function(dir){
 }
 
 // fatten chicken
-Chicken.prototype.fatten = function(value){
+Chicken.prototype.fatten = function(){
+
+  // in time window?
   if (this.game.time.now > this.fatTime) {
-    this.girth += value;
+
+    // increment girths
+    this.girth++;
     if(this.girth > 10){
       this.girth = 10
     } else if(this.girth < 1){
       this.girth = 1
     }
-    this.tweenHeight(30, 1)
-    this.body.scale.setTo(this.girth, this.girth)
-    this.fatTime = this.game.time.now + 500;
+
+    // move
+    this.tweenHeight(100, 1)
+    // scale
     this.calcSize();
+    this.fatTime = this.game.time.now + 500;
   }
 }
 // lose some weight
-Chicken.prototype.loseWeight = function(value){
+Chicken.prototype.loseWeight = function(){
+
+  // in time window?
   if (this.game.time.now > this.fatTime) {
-    this.girth -= value;
+
+    // increment girths
+    this.girth--;
     if(this.girth > 10){
       this.girth = 10
     } else if(this.girth < 1){
       this.girth = 1
     }
-    this.tweenHeight(-30, 1)
-    this.body.scale.setTo(this.girth, this.girth)
-    this.fatTime = this.game.time.now + 500;
+
+    // scale
     this.calcSize();
+    this.fatTime = this.game.time.now + 500;
   }
 }
 // recalculate size of chicken
 Chicken.prototype.calcSize = function(){
-  this.body.scale.setTo(this.girth, this.girth)
+  this.body.scale.setTo(1 + this.girth * 0.2, 1 + this.girth * 0.2)
 }
 
 Chicken.prototype.evade = function(foods){
