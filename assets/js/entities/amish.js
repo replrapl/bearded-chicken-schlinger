@@ -1,0 +1,3 @@
+var Amish = function(game) {
+
+};

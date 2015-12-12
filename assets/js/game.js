@@ -5,6 +5,7 @@ function preload() {
 
 function create() {
   var ground = new Ground(game);
+  ground.render();
 }
 
 function update() {
