@@ -4,8 +4,13 @@ function preload() {
 }
 
 function create() {
-  var ground = new Ground(game);
+  var graphics = this.game.add.graphics(0, 500);
+
+  var ground = new Ground(game, graphics);
   ground.render();
+
+  var amish = new Amish(game, graphics);
+  amish.render();
 }
 
 function update() {
