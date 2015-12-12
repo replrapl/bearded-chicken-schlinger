@@ -16,7 +16,7 @@ function create() {
   ground.render();
 
   chick = new Chicken(1, 100, 100, game);
-  chick.start()
+  chick.startWander(5000)
 
   amish = new Amish(game, 100, 420);
 

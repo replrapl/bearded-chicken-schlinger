@@ -24,8 +24,8 @@ Chicken = function(index, x, y, game){
   this.going = true;
 }
 
-Chicken.prototype.start = function(){
-  this.loop = setInterval(this.loop.bind(this), 5000)
+Chicken.prototype.startWander = function(time){
+  this.loop = setInterval(this.loop.bind(this), time)
 }
 
 Chicken.prototype.layEgg = function(){
