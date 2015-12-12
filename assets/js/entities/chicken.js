@@ -9,19 +9,42 @@ Chicken = function(index, x, y, game){
   game.physics.enable(this.body, Phaser.Physics.ARCADE);
   this.body.position.x = x;
   this.body.position.y = y;
-  this.body.body.setSize(80, 80, 5, 16);
+  this.body.body.setSize(80, 80, 500, 16);
+  this.body.anchor.setTo(0.5, 1);
   // this.velocityX = 0;
   this.velocityY = 0;
   this.stepSize = 0;
   this.going = true;
   this.loop = function(){
-    this.fatten(0.5)
+    // this.fatten(0.5)
     if(this.direction > 0){
       this.changeDirection(-1)
     } else {
       this.changeDirection(1)
     }
   }
+
+  //  Our bullet group
+  this.eggs = this.game.add.group();
+  this.eggs.enableBody = true;
+  this.eggs.physicsBodyType = Phaser.Physics.ARCADE;
+  this.eggs.createMultiple(30, 'bullet');
+  this.eggs.setAll('anchor.x', 0.5);
+  this.eggs.setAll('anchor.y', 1);
+  this.eggs.setAll('outOfBoundsKill', true);
+  this.eggs.setAll('checkWorldBounds', true);
+
+  // The enemy's eggs
+  this.enemyEggs = this.game.add.group();
+  this.enemyEggs.enableBody = true;
+  this.enemyEggs.physicsBodyType = Phaser.Physics.ARCADE;
+  this.enemyEggs.createMultiple(30, 'enemyBullet');
+  this.enemyEggs.setAll('anchor.x', 0.5);
+  this.enemyEggs.setAll('anchor.y', 1);
+  this.enemyEggs.setAll('outOfBoundsKill', true);
+  this.enemyEggs.setAll('checkWorldBounds', true);
+
+  this.eggButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 }
 
 Chicken.prototype.startWander = function(time){
@@ -29,12 +52,24 @@ Chicken.prototype.startWander = function(time){
 }
 Chicken.prototype.layEgg = function(){
   // this.moveY(-1);
-  this.tweenHeight(100, 1)
   this.weight -= 5
+  this.tweenHeight(-100, -1)
+  
   if(this.weight < 100){
     this.weight = 100
   } else if(this.weight > 1000){
     this.weight = 1000
+  }
+
+  if (this.game.time.now > eggTime) {
+    //  Grab the first egg we can from the pool
+    var egg = this.eggs.getFirstExists(false);
+    if (egg) {
+      //  And fire it
+      egg.reset(chick.body.position.x, chick.body.position.y);
+      egg.body.velocity.y = 400;
+      eggTime = this.game.time.now + 500;
+    }
   }
 }
 Chicken.prototype.poop = function(){
@@ -49,14 +84,18 @@ Chicken.prototype.poop = function(){
 }
 
 
-Chicken.prototype.updatePosition = function(){
-  if(this.stepSize > 0){
+Chicken.prototype.update = function(c){
+  if(Math.abs(this.stepSize) > 0){
     this.body.position.y += this.stepSize;
     this.velocityY -= this.stepSize;
     if(this.velocityY < 0.25){
       this.velocityY = 0;
       this.stepSize = 0;
     }
+  }
+
+  if (this.eggButton.isDown) {
+      this.layEgg();
   }
 }
 Chicken.prototype.tweenHeight = function(y, stepSize){
@@ -89,7 +128,7 @@ Chicken.prototype.fatten = function(value){
     this.girth = 1
   }
   this.weight += value;
-  this.moveY(30)
+  this.tweenHeight(30, 1)
   this.body.scale.setTo(this.girth, this.girth)
 }
 
