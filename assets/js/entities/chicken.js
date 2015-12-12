@@ -66,6 +66,21 @@ Chicken.prototype.startWander = function(time){
   this.loop = setInterval(this.loop.bind(this), time)
 }
 
+Chicken.prototype.collided = function(foods){
+  // console.log(foods[0])
+  //  Run collision
+  // this.game.physics.arcade.overlap(foods[0], this.body, function(a, b){
+  //   console.log("-->", a, b)
+  // }, null, this);
+}
+
+Chicken.prototype.foodNearby = function(foods){
+  //  Run collision
+  // this.game.physics.arcade.overlap(foods, this.bounding, function(a, b){
+  //   console.log('====>', a, b)
+  // }, null, this);
+}
+
 // lays an egg
 Chicken.prototype.layEgg = function(){
   if(this.girth <= 1){
