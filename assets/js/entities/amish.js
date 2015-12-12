@@ -62,7 +62,7 @@ Amish.prototype.schling = function(velocity){
       }
       food.rotation = game.physics.arcade.moveToPointer(food, 1000, game.input.activePointer, velocity);
       food.body.gravity.set(0, 280);
-      this.foodTime = this.game.time.now + 500;
+      this.foodTime = this.game.time.now + 250;
     }
   }
 };
