@@ -13,4 +13,5 @@ function create() {
 }
 
 function update() {
+	chick.moveX(1)
 }
