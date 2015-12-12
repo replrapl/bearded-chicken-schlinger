@@ -5,6 +5,8 @@ function preload() {
 
 function create() {
   var ground = new Ground(game);
+
+  chick = new Chicken(1, 0, 0, game)
   ground.render();
 }
 
