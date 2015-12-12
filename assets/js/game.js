@@ -31,4 +31,5 @@ function update() {
   else if (cursors.right.isDown) {
     amish.player.body.velocity.x = 200;
   }
+	// chick.moveX(1)
 }
