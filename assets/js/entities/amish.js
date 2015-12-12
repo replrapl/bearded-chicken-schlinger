@@ -24,10 +24,39 @@ var Amish = function(game, x, y) {
   this.windup = 0;
 
   // Health pool
+  this.dead = false;
   this.health = 100;
+  this.harmButton = this.game.input.keyboard.addKey(Phaser.Keyboard.H);
+};
+
+Amish.prototype.harm = function(amount) {
+  if(this.dead === false) {
+    this.health -= amount;
+    this.healthText.text = this.health;
+
+    if(this.health === 0) {
+      this.dead = true;
+    }
+  }
+};
+
+Amish.prototype.drawHealthPool = function() {
+  // Display Health Pool
+  this.game.add.text(100, 550, 'HEALTH', {
+    font: 'bold 10pt Bitter',
+    fill: '#59cfa8'
+  });
+  this.healthText = this.game.add.text(200, 550, this.health, {
+    font: 'bold 10pt Bitter',
+    fill: '#59cfa8'
+  });
 };
 
 Amish.prototype.update = function() {
+  // Health pool testing
+  if (this.harmButton.isDown) {
+    this.harm(2);
+  }
 
   if(this.isFiring){
     this.windup += 10;
