@@ -36,15 +36,6 @@ Chicken = function(index, x, y, game){
   this.eggs.setAll('anchor.y', 1);
   this.eggs.setAll('outOfBoundsKill', true);
   this.eggs.setAll('checkWorldBounds', true);
-  // The enemy's eggs
-  this.enemyEggs = this.game.add.group();
-  this.enemyEggs.enableBody = true;
-  this.enemyEggs.physicsBodyType = Phaser.Physics.ARCADE;
-  this.enemyEggs.createMultiple(30, 'enemyBullet');
-  this.enemyEggs.setAll('anchor.x', 0.5);
-  this.enemyEggs.setAll('anchor.y', 1);
-  this.enemyEggs.setAll('outOfBoundsKill', true);
-  this.enemyEggs.setAll('checkWorldBounds', true);
 
   this.eggButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
   this.eggTime = 0;
@@ -59,15 +50,6 @@ Chicken = function(index, x, y, game){
   this.poos.setAll('anchor.y', 1);
   this.poos.setAll('outOfBoundsKill', true);
   this.poos.setAll('checkWorldBounds', true);
-  // The enemy's eggs
-  this.enemyPoos = this.game.add.group();
-  this.enemyPoos.enableBody = true;
-  this.enemyPoos.physicsBodyType = Phaser.Physics.ARCADE;
-  this.enemyPoos.createMultiple(30, 'enemyBullet');
-  this.enemyPoos.setAll('anchor.x', 0.5);
-  this.enemyPoos.setAll('anchor.y', 1);
-  this.enemyPoos.setAll('outOfBoundsKill', true);
-  this.enemyPoos.setAll('checkWorldBounds', true);
 
   this.pooButton = this.game.input.keyboard.addKey(Phaser.Keyboard.BACKSPACE);
   this.pooTime = 0;
