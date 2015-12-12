@@ -94,30 +94,22 @@ Chicken.prototype.collided = function(foods, distance){
         } else {
           v = -1 // food below
         }
-        return true
+        return {x: h, y: v}
       }
-      return false
+      return
   }
 
   /*game.physics.arcade.overlap(this.bounding, foods.children, function(a,b){
     console.log('-++++-', a, b)
   }, null, this);*/
-
-  /*this.game.physics.arcade.collide(this.bounding, foods, function(food, b){
-    console.log('---------', food, b)
-  }, null, this);
-
-  this.game.physics.arcade.overlap(this.bounding, foods, function(food, chick){
-    console.log("_-->", food, chick)
-  }, null, this);*/
 }
 
-Chicken.prototype.foodNearby = function(foods){
+/*Chicken.prototype.foodNearby = function(foods){
   //  Run collision
   this.game.physics.arcade.overlap([foods], this.bounding, function(a, b){
     console.log('====>', a, b)
   }, null, this);
-}
+}*/
 
 // lays an egg
 Chicken.prototype.layEgg = function(){
@@ -168,7 +160,24 @@ Chicken.prototype.poo = function(){
 }
 
 // checks key presses and positions
-Chicken.prototype.update = function(){
+Chicken.prototype.update = function(avoidMes /* array of things to avoid */){
+
+  if(avoidMes){
+    var coordinates = {};
+    // avoids
+    for(var i = 0 ; i < avoidMes.length ; i++){
+      coordinates = this.collided(avoidMes[i], 500)
+    }
+
+    // dies
+    for(var i = 0 ; i < avoidMes.length ; i++){
+      this.collided(avoidMes[i], 100)
+    }
+
+    if(coordinates){
+      this.avoidObstacle(coordinates.x, coordinates.y)
+    }
+  }
 
   if(Math.abs(this.stepSize) > 0){
     this.velocityY -= Math.sign(this.velocityY) * this.stepSize;
