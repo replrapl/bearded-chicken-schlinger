@@ -5,7 +5,7 @@ Chicken = function(index, x, y, game){
   this.direction = 1;
   this.body = game.add.sprite(80, 80, 'chicky');
   this.bounding = game.add.sprite(1000, 1000);
-  game.physics.enable(this.body, Phaser.Physics.ARCADE);
+  this.game.physics.enable(this.body, Phaser.Physics.ARCADE);
   this.body.position.x = x;
   this.body.position.y = y;
   this.body.body.setSize(80, 80, 500, 16);
@@ -56,7 +56,7 @@ Chicken = function(index, x, y, game){
   // time window
   this.pooTime = 0;
 
-  // button
+  // Make larger
   this.fattenButton = this.game.input.keyboard.addKey(Phaser.Keyboard.CONTROL);
   // time window
   this.fatTime = 0;
@@ -71,7 +71,7 @@ Chicken.prototype.layEgg = function(){
   if(this.girth <= 1){
     return
   }
-  
+
   // prevents too many egg layings in a short amount of time
   if (this.game.time.now > this.eggTime) {
 
@@ -94,7 +94,7 @@ Chicken.prototype.poo = function(){
   if(this.girth <= 1){
     return
   }
-  
+
   // prevents too many poos from being dropped in a short amount of time
   if (this.game.time.now > this.pooTime) {
 
