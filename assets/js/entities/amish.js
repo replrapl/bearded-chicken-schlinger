@@ -18,14 +18,16 @@ var Amish = function(game, x, y) {
   this.foods.setAll('outOfBoundsKill', true);
   this.foods.setAll('checkWorldBounds', true);
 
-  // button
-  this.game.input.mouse.capture = true;
-
   // time window
   this.foodTime = 0;
   this.isFiring = false;
   this.windup = 0;
+
+  // Health pool
+  this.health = 100;
 };
+
+Amish.prototype.
 
 Amish.prototype.update = function() {
 

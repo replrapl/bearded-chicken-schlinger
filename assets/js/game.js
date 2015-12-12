@@ -13,6 +13,9 @@ function create() {
 
   // game.physics.startSystem(Phaser.Physics.ARCADE);
 
+  // Capture mouse events
+  this.game.input.mouse.capture = true;
+
   var graphics = this.game.add.graphics(0, 500);
 
   // Ground
