@@ -14,18 +14,20 @@ function create() {
   // game.physics.startSystem(Phaser.Physics.ARCADE);
 
   var graphics = this.game.add.graphics(0, 500);
+
+  // Ground
   var ground = new Ground(game, graphics);
 
-  ground.render();
-
+  // Chicken
   chick = new Chicken(1, 100, 300, game);
   chick.startWander(5000)
   // chick.tweenHeight(150, 1);
 
+  // Amish
   amish = new Amish(game, 100, 420);
 
   // Initialize cursor keys
-  cursors = game.input.keyboard.createCursorKeys();  
+  cursors = game.input.keyboard.createCursorKeys();
 }
 
 function update() {
