@@ -4,14 +4,14 @@ Chicken = function(index, x, y, game){
     this.weight = 100;
     this.girth = 1;
 
-    this.player = game.add.sprite(80, 80, 'chicky');
+    this.body = game.add.sprite(80, 80, 'chicky');
     this.bounding = game.add.sprite(1000, 1000);
-    game.physics.enable(this.player, Phaser.Physics.ARCADE);
+    game.physics.enable(this.body, Phaser.Physics.ARCADE);
 
-    // this.player.body.bounce.y = 0.2;
-    this.player.body.setSize(80, 80, -40, -40);
-    this.player.position.x = x;
-    this.player.position.y = y;
+    // this.body.body.bounce.y = 0.2;
+    this.body.body.setSize(80, 80, -40, -40);
+    this.body.position.x = x;
+    this.body.position.y = y;
 }
 
 Chicken.prototype.layEgg = function(){
@@ -23,15 +23,20 @@ Chicken.prototype.poop = function(){
 }
 
 Chicken.prototype.moveX = function(x){
-	this.player.position.x += x;
+	this.body.position.x += x;
 }
 
 Chicken.prototype.moveY = function(y){
-	this.player.position.y += y;
+	this.body.position.y += y;
+}
+
+Chicken.prototype.fatten = function(value){
+  this.girth += value;
+  this.body.scale.setTo(this.girth, this.girth)
 }
 
 Chicken.prototype.evade = function(foods){
-    this.game.physics.arcade.overlap(foods, this.bounding, evade, null, this);
+  this.game.physics.arcade.overlap(foods, this.bounding, evade, null, this);
 }
 
 function evade(){
