@@ -1,5 +1,8 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
+var amish;
+var cursors;
+
 function preload() {
 
 	 game.load.spritesheet('chicky', 'assets/images/chicky.png', 80, 80);
@@ -13,8 +16,19 @@ function create() {
   ground.render();
 
   var chick = new Chicken(1, 0, 0, game);
-  var amish = new Amish(game, 100, 420);
+  amish = new Amish(game, 100, 420);
+
+  // Initialize cursor keys
+  cursors = game.input.keyboard.createCursorKeys();
 }
 
 function update() {
+  amish.player.body.velocity.setTo(0, 0);
+
+  if (cursors.left.isDown) {
+    amish.player.body.velocity.x = -200;
+  }
+  else if (cursors.right.isDown) {
+    amish.player.body.velocity.x = 200;
+  }
 }
