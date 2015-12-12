@@ -7,7 +7,7 @@ Chicken = function(index, x, y, game){
     this.weight = 100;
     this.girth = 1;
 
-    this.player = game.add.sprite(32, 32, 'dude');
+    this.player = game.add.sprite(80, 80, 'chicky');
     game.physics.enable(this.player, Phaser.Physics.ARCADE);
 
     // this.player.body.bounce.y = 0.2;
