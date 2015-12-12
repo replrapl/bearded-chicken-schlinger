@@ -35,31 +35,7 @@ function update() {
     amish.player.body.velocity.x = 200;
   }
 
-  chick.update(3);
+  chick.update();
   chick.moveX(1)
   chick.moveY((Math.round(Math.random() - 1) + 0.5) * Math.floor((Math.random() * 2) + 1))
-
-
-  //  Firing?
-  // if (fireButton.isDown)
-  // {
-  //     fireBullet();
-  // }
-}
-
-function fireBullet () {
-
-    //  To avoid them being allowed to fire too fast we set a time limit
-    if (game.time.now > eggTime) {
-        //  Grab the first egg we can from the pool
-        egg = eggs.getFirstExists(false);
-
-        if (egg) {
-            //  And fire it
-            egg.reset(chick.body.position.x, chick.body.position.y);
-            egg.body.velocity.y = 400;
-            eggTime = game.time.now + 500;
-        }
-    }
-
 }
