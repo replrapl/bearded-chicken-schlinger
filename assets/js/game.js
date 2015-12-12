@@ -43,6 +43,7 @@ function update() {
 
   // chick stuff
   chick.update();
+  chick.collided(amish.foods)
   chick.moveX(1)
   chick.moveY((Math.round(Math.random() - 1) + 0.5) * Math.floor((Math.random() * 2) + 1))
 }
