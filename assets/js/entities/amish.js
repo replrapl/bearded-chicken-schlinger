@@ -19,20 +19,36 @@ var Amish = function(game, x, y) {
   this.foods.setAll('checkWorldBounds', true);
 
   // button
-  this.foodButton = this.game.input.keyboard.addKey(Phaser.Keyboard.A);
+  this.game.input.mouse.capture = true;
+
   // time window
   this.foodTime = 0;
+  this.isFiring = false;
+  this.windup = 0;
 };
 
 Amish.prototype.update = function() {
 
+  if(this.isFiring){
+    this.windup += 10;
+    if(this.windup > 500){
+      this.windup = 500
+    }
+  }
+
   // fats
-  if (this.foodButton.isDown) {
-    this.schling();
+  if (this.game.input.activePointer.leftButton.isDown) {
+    this.isFiring = true;
+    console.log("WINDING UP:", this.windup)
+  } else if(this.isFiring){
+    this.isFiring = false;
+    this.schling(this.windup);
+    this.windup = 0;
+    console.log("DONE")
   }
 };
 
-Amish.prototype.schling = function(){
+Amish.prototype.schling = function(velocity){
   // prevents too many food layings in a short amount of time
   if (this.game.time.now > this.foodTime) {
 
@@ -40,9 +56,12 @@ Amish.prototype.schling = function(){
     var food = this.foods.getFirstExists(false);
     if (food) {
       food.reset(this.player.body.position.x, this.player.body.position.y);
-      food.body.velocity.y = -200;
-      food.body.velocity.x = 200;
-      food.body.gravity.set(0, 180);
+      velocity = 1000 - velocity;
+      if(velocity < 500){
+        velocity = 500
+      }
+      food.rotation = game.physics.arcade.moveToPointer(food, 1000, game.input.activePointer, velocity);
+      food.body.gravity.set(0, 280);
       this.foodTime = this.game.time.now + 500;
     }
   }

@@ -74,7 +74,7 @@ Chicken.prototype.layEgg = function(){
   
   // prevents too many egg layings in a short amount of time
   if (this.game.time.now > this.eggTime) {
-
+    console.log('a;dfksadfskl;dfslkj')
     // move
     this.tweenHeight(-100, 1)
     // lose weight
