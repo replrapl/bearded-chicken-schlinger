@@ -4,6 +4,7 @@ function preload() {
 }
 
 function create() {
+  var ground = new Ground(game);
 }
 
 function update() {
