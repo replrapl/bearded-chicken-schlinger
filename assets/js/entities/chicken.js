@@ -83,7 +83,7 @@ Chicken.prototype.layEgg = function(){
     // handle eggs
     var egg = this.eggs.getFirstExists(false);
     if (egg) {
-      egg.reset(chick.body.position.x, chick.body.position.y);
+      egg.reset(this.body.position.x, this.body.position.y);
       egg.body.velocity.y = 400;
       this.eggTime = this.game.time.now + 500;
     }
@@ -108,7 +108,7 @@ Chicken.prototype.poo = function(){
     // handle poo
     var poo = this.poos.getFirstExists(false);
     if (poo) {
-      poo.reset(chick.body.position.x, chick.body.position.y);
+      poo.reset(this.body.position.x, this.body.position.y);
       poo.body.velocity.y = 400;
       this.pooTime = this.game.time.now + 500;
     }

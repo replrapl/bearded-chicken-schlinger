@@ -10,9 +10,12 @@ function preload() {
 }
 
 function create() {
-  var graphics = this.game.add.graphics(0, 500);
 
+  // game.physics.startSystem(Phaser.Physics.ARCADE);
+
+  var graphics = this.game.add.graphics(0, 500);
   var ground = new Ground(game, graphics);
+
   ground.render();
 
   chick = new Chicken(1, 100, 300, game);
@@ -34,7 +37,9 @@ function update() {
   else if (cursors.right.isDown) {
     amish.player.body.velocity.x = 200;
   }
+  amish.update();
 
+  // chick stuff
   chick.update();
   chick.moveX(1)
   chick.moveY((Math.round(Math.random() - 1) + 0.5) * Math.floor((Math.random() * 2) + 1))
