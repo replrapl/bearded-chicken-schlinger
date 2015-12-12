@@ -16,7 +16,8 @@ function create() {
   ground.render();
 
   chick = new Chicken(1, 100, 100, game);
-  chick.startWander(5000)
+  chick.startWander(2000)
+  // chick.tweenHeight(150, 1);
 
   amish = new Amish(game, 100, 420);
 
@@ -34,7 +35,8 @@ function update() {
     amish.player.body.velocity.x = 200;
   }
 
+  // chick.updatePosition();
   chick.moveX(1)
-  chick.moveY((Math.round(Math.random() - 1) + 0.5) * Math.floor((Math.random() * 7) + 1))
+  chick.moveY((Math.round(Math.random() - 1) + 0.5) * Math.floor((Math.random() * 2) + 1))
   // chick.fatten(0.01)
 }
