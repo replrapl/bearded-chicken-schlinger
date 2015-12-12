@@ -27,8 +27,6 @@ var Amish = function(game, x, y) {
   this.health = 100;
 };
 
-Amish.prototype.
-
 Amish.prototype.update = function() {
 
   if(this.isFiring){
