@@ -5,8 +5,8 @@ var cursors;
 
 function preload() {
 
-	game.load.spritesheet('chicky', 'assets/images/chicky.png', 80, 80);
-   	game.load.spritesheet('amish', 'assets/images/amish.png', 80, 80);
+  game.load.spritesheet('chicky', 'assets/images/chicky.png', 80, 80);
+  game.load.spritesheet('amish', 'assets/images/amish.png', 80, 80);
 }
 
 function create() {
@@ -16,6 +16,8 @@ function create() {
   ground.render();
 
   chick = new Chicken(1, 100, 100, game);
+  chick.start()
+
   amish = new Amish(game, 100, 420);
 
   // Initialize cursor keys
@@ -31,6 +33,8 @@ function update() {
   else if (cursors.right.isDown) {
     amish.player.body.velocity.x = 200;
   }
-	// chick.moveX(1)
-	// chick.fatten(0.01)
+
+  chick.moveX(1)
+  chick.moveY((Math.round(Math.random() - 1) + 0.5) * Math.floor((Math.random() * 7) + 1))
+  // chick.fatten(0.01)
 }
