@@ -1,7 +1,6 @@
 Chicken = function(index, x, y, game){
 
   this.game = game;
-  this.weight = 100;
   this.girth = 1;
   this.direction = 1;
   this.body = game.add.sprite(80, 80, 'chicky');
@@ -15,6 +14,10 @@ Chicken = function(index, x, y, game){
   this.velocityY = 0;
   this.stepSize = 0;
   this.going = true;
+
+  this.pooStepSize = 1.5;
+  this.eggStepSize = 0.5;
+
   this.loop = function(){
     // this.fatten(0.5)
     if(this.direction > 0){
@@ -33,7 +36,6 @@ Chicken = function(index, x, y, game){
   this.eggs.setAll('anchor.y', 1);
   this.eggs.setAll('outOfBoundsKill', true);
   this.eggs.setAll('checkWorldBounds', true);
-
   // The enemy's eggs
   this.enemyEggs = this.game.add.group();
   this.enemyEggs.enableBody = true;
@@ -45,44 +47,67 @@ Chicken = function(index, x, y, game){
   this.enemyEggs.setAll('checkWorldBounds', true);
 
   this.eggButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+  this.eggTime = 0;
+
+
+  //  Our bullet group
+  this.poos = this.game.add.group();
+  this.poos.enableBody = true;
+  this.poos.physicsBodyType = Phaser.Physics.ARCADE;
+  this.poos.createMultiple(30, 'bullet');
+  this.poos.setAll('anchor.x', 0.5);
+  this.poos.setAll('anchor.y', 1);
+  this.poos.setAll('outOfBoundsKill', true);
+  this.poos.setAll('checkWorldBounds', true);
+  // The enemy's eggs
+  this.enemyPoos = this.game.add.group();
+  this.enemyPoos.enableBody = true;
+  this.enemyPoos.physicsBodyType = Phaser.Physics.ARCADE;
+  this.enemyPoos.createMultiple(30, 'enemyBullet');
+  this.enemyPoos.setAll('anchor.x', 0.5);
+  this.enemyPoos.setAll('anchor.y', 1);
+  this.enemyPoos.setAll('outOfBoundsKill', true);
+  this.enemyPoos.setAll('checkWorldBounds', true);
+
+  this.pooButton = this.game.input.keyboard.addKey(Phaser.Keyboard.BACKSPACE);
+  this.pooTime = 0;
+
+
+  this.fattenButton = this.game.input.keyboard.addKey(Phaser.Keyboard.CONTROL);
+  this.fatTime = 0;
 }
 
 Chicken.prototype.startWander = function(time){
   this.loop = setInterval(this.loop.bind(this), time)
 }
 Chicken.prototype.layEgg = function(){
-  // this.moveY(-1);
-  this.weight -= 5
   this.tweenHeight(-100, -1)
-  
-  if(this.weight < 100){
-    this.weight = 100
-  } else if(this.weight > 1000){
-    this.weight = 1000
-  }
-
-  if (this.game.time.now > eggTime) {
+  this.loseWeight(this.eggStepSize)
+  if (this.game.time.now > this.eggTime) {
     //  Grab the first egg we can from the pool
     var egg = this.eggs.getFirstExists(false);
     if (egg) {
       //  And fire it
       egg.reset(chick.body.position.x, chick.body.position.y);
       egg.body.velocity.y = 400;
-      eggTime = this.game.time.now + 500;
+      this.eggTime = this.game.time.now + 500;
     }
   }
 }
-Chicken.prototype.poop = function(){
-  this.tweenHeight(300, 1)
-  this.weight -= 15
-  if(this.weight < 100){
-    this.weight = 100
-  } else if(this.weight > 1000){
-    this.weight = 1000
+Chicken.prototype.poo = function(){
+  this.tweenHeight(-2000, -10)
+  this.loseWeight(this.pooStepSize)
+  if (this.game.time.now > this.pooTime) {
+    //  Grab the first egg we can from the pool
+    var poo = this.poos.getFirstExists(false);
+    if (poo) {
+      //  And fire it
+      poo.reset(chick.body.position.x, chick.body.position.y);
+      poo.body.velocity.y = 400;
+      this.pooTime = this.game.time.now + 500;
+    }
   }
-  this.moveY(3)
 }
-
 
 Chicken.prototype.update = function(c){
   if(Math.abs(this.stepSize) > 0){
@@ -95,7 +120,13 @@ Chicken.prototype.update = function(c){
   }
 
   if (this.eggButton.isDown) {
-      this.layEgg();
+    this.layEgg();
+  }
+  if (this.pooButton.isDown) {
+    this.poo();
+  }
+  if (this.fattenButton.isDown) {
+    this.fatten(0.2);
   }
 }
 Chicken.prototype.tweenHeight = function(y, stepSize){
@@ -121,14 +152,34 @@ Chicken.prototype.changeDirection = function(dir){
 }
 
 Chicken.prototype.fatten = function(value){
-  this.girth += value;
-  if(this.girth > 4){
-    this.girth = 10
-  } else if(this.girth < 1){
-    this.girth = 1
+  if (this.game.time.now > this.fatTime) {
+    this.girth += value;
+    if(this.girth > 10){
+      this.girth = 10
+    } else if(this.girth < 1){
+      this.girth = 1
+    }
+    this.tweenHeight(30, 1)
+    this.body.scale.setTo(this.girth, this.girth)
+    this.fatTime = this.game.time.now + 500;
+    this.calcSize();
   }
-  this.weight += value;
-  this.tweenHeight(30, 1)
+}
+Chicken.prototype.loseWeight = function(value){
+  if (this.game.time.now > this.fatTime) {
+    this.girth -= value;
+    if(this.girth > 10){
+      this.girth = 10
+    } else if(this.girth < 1){
+      this.girth = 1
+    }
+    this.tweenHeight(-30, 1)
+    this.body.scale.setTo(this.girth, this.girth)
+    this.fatTime = this.game.time.now + 500;
+    this.calcSize();
+  }
+}
+Chicken.prototype.calcSize = function(){
   this.body.scale.setTo(this.girth, this.girth)
 }
 

@@ -2,7 +2,6 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create
 
 var amish;
 var cursors;
-var eggTime = 0;
 
 function preload() {
 
@@ -16,7 +15,7 @@ function create() {
   var ground = new Ground(game, graphics);
   ground.render();
 
-  chick = new Chicken(1, 100, 200, game);
+  chick = new Chicken(1, 100, 300, game);
   chick.startWander(5000)
   // chick.tweenHeight(150, 1);
 
