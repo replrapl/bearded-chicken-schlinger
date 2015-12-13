@@ -65,8 +65,8 @@ function update() {
   amish.update();
 
   // chick stuff
-  chick.update();
-  chick.collided(amish.foods, 200)
+  chick.update(amish.foods.children);
+  // chick.collided(amish.foods.children, 200)
   chick.moveX(1)
   chick.moveY((Math.round(Math.random() - 1) + 0.5) * Math.floor((Math.random() * 2) + 1))
 }
