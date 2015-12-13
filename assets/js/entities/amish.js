@@ -5,14 +5,13 @@ var Amish = function(game, x, y) {
   this.player.anchor.setTo(0, 0);
   game.physics.enable(this.player, Phaser.Physics.ARCADE);
 
+  // Sprite should collide with the world's bounds and bounce back into it.
+  this.player.body.collideWorldBounds = true;
+
   // Positioning and movement
   this.player.position.x = x;
   this.player.position.y = y;
   this.velocity = 200;
-  this.movementConstraints = {
-    left: 0,
-    right: this.game.scale.width
-  };
 
   //  Our bullet group
   this.foods = this.game.add.group();
@@ -92,7 +91,7 @@ Amish.prototype.drawHealthPool = function() {
 
 // Move the player using a direction and velocity
 Amish.prototype.move = function(dir) {
-  this.player.body.velocity.x = (dir === 'left' ? this.velocity * -1 : this.velocity);
+  this.player.body.velocity.x = (dir == LEFT ? this.velocity * -1 : this.velocity);
 };
 
 Amish.prototype.update = function(avoidMes) {
