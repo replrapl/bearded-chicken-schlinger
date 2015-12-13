@@ -54,7 +54,7 @@ Man.prototype.harm = function(amount) {
 
 Man.prototype.drawHealthPool = function() {
   // Display Health Pool
-  this.game.add.text(100, this.game.scale.height - 85, 'HEALTH', {
+  this.game.add.text(100, this.game.scale.height - 85, 'Health', {
     font: 'bold 15pt Indie Flower',
     fill: '#59cfa8'
   });
