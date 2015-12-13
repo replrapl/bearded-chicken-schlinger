@@ -9,6 +9,10 @@ Chicken = function(index, x, y, game){
   // this.bounding.body.setSize(2000, 2000, 500, 16)
 
   this.body = game.add.sprite(100, 100, 'chicky');
+
+  this.body.animations.add('flap');
+  this.body.animations.play('flap', 10, true);
+
   this.game.physics.enable(this.body, Phaser.Physics.ARCADE);
   this.body.position.x = x;
   this.body.position.y = y;
@@ -155,6 +159,9 @@ Chicken.prototype.avoidObstacle = function(){
 Chicken.prototype.update = function(avoidMes /* array of things to avoid */, ground_level){
 
   if(!this.dead){
+    
+    this.calcSize()
+
     if(avoidMes){
 
       var coordinates = {};
@@ -284,7 +291,8 @@ Chicken.prototype.loseWeight = function(){
 // recalculate size of chicken
 Chicken.prototype.calcSize = function(){
   this.collisionRadius = this.collisionRadius + this.girth * 50
-  this.body.scale.setTo(1 + this.girth * 0.15, 1 + this.girth * 0.15)
+  console.log(this.direction)
+  this.body.scale.setTo(-this.direction * (1 + this.girth * 0.15), 1 + this.girth * 0.15)
 }
 
 Chicken.prototype.evade = function(foods){

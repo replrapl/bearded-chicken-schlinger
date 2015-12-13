@@ -1,0 +1,51 @@
+{ "frames": {
+   "Sprite-0001 0.": {
+    "frame": { "x": 0, "y": 0, "w": 150, "h": 150 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 150, "h": 150 },
+    "sourceSize": { "w": 150, "h": 150 },
+    "duration": 100
+   },
+   "Sprite-0001 1.": {
+    "frame": { "x": 150, "y": 0, "w": 150, "h": 150 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 150, "h": 150 },
+    "sourceSize": { "w": 150, "h": 150 },
+    "duration": 100
+   },
+   "Sprite-0001 2.": {
+    "frame": { "x": 300, "y": 0, "w": 150, "h": 150 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 150, "h": 150 },
+    "sourceSize": { "w": 150, "h": 150 },
+    "duration": 100
+   },
+   "Sprite-0001 3.": {
+    "frame": { "x": 450, "y": 0, "w": 150, "h": 150 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 150, "h": 150 },
+    "sourceSize": { "w": 150, "h": 150 },
+    "duration": 100
+   },
+   "Sprite-0001 4.": {
+    "frame": { "x": 600, "y": 0, "w": 150, "h": 150 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 150, "h": 150 },
+    "sourceSize": { "w": 150, "h": 150 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.1.1",
+  "image": "/Users/coreykruger/games/amish-chicken-schlinger/assets/images/Sprite-0001.png",
+  "format": "RGBA8888",
+  "size": { "w": 750, "h": 150 },
+  "scale": "1"
+ }
+}

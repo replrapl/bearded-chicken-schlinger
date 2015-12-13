@@ -19,7 +19,7 @@ var GROUND_LEVEL = 500;
 function preload() {
   //  Load the Google WebFont Loader script
   game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
-  game.load.spritesheet('chicky', 'assets/images/chicky.png', 80, 80);
+  game.load.spritesheet('chicky', 'assets/images/Sprite-0001.png', 150, 150, 5);
   game.load.spritesheet('amish', 'assets/images/amish.png', 80, 80);
   game.load.spritesheet('grass', 'assets/images/grass.png', 100, 75);
 }
