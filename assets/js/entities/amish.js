@@ -129,13 +129,22 @@ Amish.prototype.schling = function(velocity){
     var food = this.foods.getFirstExists(false);
     if (food) {
       food.reset(this.player.body.position.x, this.player.body.position.y);
-      velocity = 1000 - velocity;
-      if(velocity < 500){
-        velocity = 500
-      }
-      food.rotation = game.physics.arcade.moveToPointer(food, 1000, game.input.activePointer, velocity);
+      
+      distanceToTarget = pyth(
+        this.player.position.x, 
+        this.player.position.y,
+        game.input.activePointer.position.x,
+        game.input.activePointer.position.y
+      );
+
+      food.rotation = game.physics.arcade.moveToPointer(food, 1, game.input.activePointer, 
+        (500/velocity)*(distanceToTarget));
       food.body.gravity.set(0, 280);
       this.foodTime = this.game.time.now + 250;
     }
   }
 };
+
+function pyth(x1, y1, x2, y2){
+  return Math.sqrt(Math.pow(x1 - x2,2) + Math.pow(y1 - y2,2))
+}

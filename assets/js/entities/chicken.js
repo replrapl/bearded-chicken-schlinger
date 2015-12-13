@@ -8,11 +8,11 @@ Chicken = function(index, x, y, game){
   this.game.physics.enable(this.bounding, Phaser.Physics.ARCADE);
   // this.bounding.body.setSize(2000, 2000, 500, 16)
 
-  this.body = game.add.sprite(80, 80, 'chicky');
+  this.body = game.add.sprite(100, 100, 'chicky');
   this.game.physics.enable(this.body, Phaser.Physics.ARCADE);
   this.body.position.x = x;
   this.body.position.y = y;
-  this.body.body.setSize(80, 80, 500, 16);
+  this.body.body.setSize(100, 100, 500, 16);
   this.body.anchor.setTo(0.5, 0.5);
   // this.velocityX = 0;
   this.velocityY = 0;
@@ -283,7 +283,7 @@ Chicken.prototype.loseWeight = function(){
 }
 // recalculate size of chicken
 Chicken.prototype.calcSize = function(){
-  this.collisionRadius = this.collisionRadius + this.girth * 20
+  this.collisionRadius = this.collisionRadius + this.girth * 50
   this.body.scale.setTo(1 + this.girth * 0.15, 1 + this.girth * 0.15)
 }
 
