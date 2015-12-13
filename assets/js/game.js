@@ -12,8 +12,7 @@
     }
 
 };*/
-$(document).ready(function() {
-  var game = new Phaser.Game('100', '100', Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game('100', '100', Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
   var GROUND_LEVEL;
 
@@ -69,4 +68,3 @@ $(document).ready(function() {
     // chick stuff
     chick.update(amish.foods.children, GROUND_LEVEL);
   }
-});
