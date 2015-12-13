@@ -14,7 +14,7 @@ var Amish = function(game, x, y) {
   this.foods.physicsBodyType = Phaser.Physics.ARCADE;
   this.foods.createMultiple(5, 'bullet');
   this.foods.setAll('anchor.x', 0.5);
-  this.foods.setAll('anchor.y', 1);
+  this.foods.setAll('anchor.y', 0);
   this.foods.setAll('outOfBoundsKill', true);
   this.foods.setAll('checkWorldBounds', true);
 
@@ -27,15 +27,21 @@ var Amish = function(game, x, y) {
   this.dead = false;
   this.health = 100;
   this.harmButton = this.game.input.keyboard.addKey(Phaser.Keyboard.H);
+  this.harmTime = 0;
 };
 
 Amish.prototype.harm = function(amount) {
   if(this.dead === false) {
-    this.health -= amount;
-    this.healthText.text = this.health;
+    // prevents too many harms in a short amount of time
+    if (this.game.time.now > this.harmTime) {
+      this.health -= amount;
+      this.healthText.text = this.health;
 
-    if(this.health === 0) {
-      this.dead = true;
+      if(this.health === 0) {
+        this.dead = true;
+      }
+
+      this.harmTime = this.game.time.now + 2000;
     }
   }
 };
@@ -56,8 +62,8 @@ Amish.prototype.collided = function(obstacle, distance){
   // Run collision
   var f_x = obstacle.position.x,
     f_y = obstacle.position.y,
-    x = this.body.position.x,
-    y = this.body.position.y;
+    x = this.player.position.x,
+    y = this.player.position.y;
 
   var d = Math.sqrt(Math.pow(y - f_y, 2) + Math.pow(x - f_x, 2))
 
@@ -81,21 +87,10 @@ Amish.prototype.collided = function(obstacle, distance){
 Amish.prototype.update = function(avoidMes) {
 
   if(avoidMes){
-
-    var coordinates = {};
-    // avoids
-    for(var i = 0 ; i < avoidMes.length ; i++){
-      coordinates = this.collided(avoidMes[i], 500)
-      if(coordinates){
-        // console.log("AVOID!!!")
-        // this.avoidObstacle(coordinates.x, coordinates.y)
-      }
-    }
-
     // dies
     for(var i = 0 ; i < avoidMes.length ; i++){
       if(this.collided(avoidMes[i], 50)){
-        console.log("OUCH!!!")
+        this.harm(2);
         avoidMes[i].kill()
       }
     }

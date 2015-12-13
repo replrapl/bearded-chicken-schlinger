@@ -40,7 +40,7 @@ Chicken = function(index, x, y, game){
   this.eggs.physicsBodyType = Phaser.Physics.ARCADE;
   this.eggs.createMultiple(30, 'bullet');
   this.eggs.setAll('anchor.x', 0.5);
-  this.eggs.setAll('anchor.y', 1);
+  this.eggs.setAll('anchor.y', 0.5);
   this.eggs.setAll('outOfBoundsKill', true);
   this.eggs.setAll('checkWorldBounds', true);
   // button
@@ -97,10 +97,6 @@ Chicken.prototype.collided = function(food, distance){
     return {x: h, y: v}
   }
   return
-
-  /*game.physics.arcade.overlap(this.bounding, foods, function(a,b){
-    console.log('-++++-', a, b)
-  }, null, this);*/
 }
 
 // lays an egg
