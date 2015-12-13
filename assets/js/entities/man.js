@@ -1,7 +1,7 @@
-var Amish = function(game, x, y) {
+var Man = function(game, x, y) {
   this.game = game;
 
-  this.player = game.add.sprite(80, 80, 'amish');
+  this.player = game.add.sprite(80, 80, 'man');
   this.player.anchor.setTo(0, 0);
   game.physics.enable(this.player, Phaser.Physics.ARCADE);
 
@@ -35,7 +35,7 @@ var Amish = function(game, x, y) {
   this.harmTime = 0;
 };
 
-Amish.prototype.harm = function(amount) {
+Man.prototype.harm = function(amount) {
   if (this.dead === false) {
     // prevents too many harms in a short amount of time
     if (this.game.time.now > this.harmTime) {
@@ -51,7 +51,7 @@ Amish.prototype.harm = function(amount) {
   }
 };
 
-Amish.prototype.drawHealthPool = function() {
+Man.prototype.drawHealthPool = function() {
   // Display Health Pool
   this.game.add.text(100, this.game.scale.height - 85, 'HEALTH', {
     font: 'bold 15pt Indie Flower',
@@ -63,7 +63,7 @@ Amish.prototype.drawHealthPool = function() {
   });
 };
 
-/*Amish.prototype.collided = function(obstacle, distance){
+/*Man.prototype.collided = function(obstacle, distance){
   // Run collision
   var f_x = obstacle.position.x,
     f_y = obstacle.position.y,
@@ -90,11 +90,11 @@ Amish.prototype.drawHealthPool = function() {
 }*/
 
 // Move the player using a direction and velocity
-Amish.prototype.move = function(dir) {
+Man.prototype.move = function(dir) {
   this.player.body.velocity.x = (dir == LEFT ? this.velocity * -1 : this.velocity);
 };
 
-Amish.prototype.update = function(avoidMes) {
+Man.prototype.update = function(avoidMes) {
 
   if (avoidMes) {
     // dies
@@ -134,7 +134,7 @@ Amish.prototype.update = function(avoidMes) {
   }
 };
 
-Amish.prototype.schling = function(velocity) {
+Man.prototype.schling = function(velocity) {
   // prevents too many food layings in a short amount of time
   if (this.game.time.now > this.foodTime) {
 

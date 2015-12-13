@@ -10,7 +10,7 @@ var RIGHT = 'right';
 
 function preload() {
   game.load.spritesheet('chicky', 'assets/images/Sprite-0001.png', 150, 150, 5);
-  game.load.spritesheet('amish', 'assets/images/amish.png', 80, 80);
+  game.load.spritesheet('man', 'assets/images/man.png', 80, 80);
   game.load.spritesheet('grass', 'assets/images/grass.png', 100, 75);
 }
 
@@ -32,26 +32,26 @@ function create() {
   chick.startWander(20000)
     // chick.tweenHeight(150, 1);
 
-  // Amish
-  amish = new Amish(game, 100, game.scale.height - 260);
-  amish.drawHealthPool();
+  // Man
+  man = new Man(game, 100, game.scale.height - 260);
+  man.drawHealthPool();
 
   // Initialize cursor keys
   cursors = game.input.keyboard.createCursorKeys();
 }
 
 function update() {
-  amish.player.body.velocity.setTo(0, 0);
+  man.player.body.velocity.setTo(0, 0);
 
   // Probably want to make this a call to a move function
 
   if (cursors.left.isDown) {
-    amish.move(LEFT);
+    man.move(LEFT);
   } else if (cursors.right.isDown) {
-    amish.move(RIGHT);
+    man.move(RIGHT);
   }
-  amish.update(chick.eggs.children);
+  man.update(chick.eggs.children);
 
   // chick stuff
-  chick.update(amish.foods.children, GROUND_LEVEL);
+  chick.update(man.foods.children, GROUND_LEVEL);
 }
