@@ -1,17 +1,3 @@
-//  The Google WebFont Loader will look for this object, so create it before loading the script.
-/*WebFontConfig = {
-
-    //  'active' means all requested fonts have finished loading
-    //  We set a 1 second delay before calling 'createText'.
-    //  For some reason if we don't the browser cannot render the text the first time it's created.
-    active: createText,
-
-    //  The Google Fonts we want to load (specify as many as you like in the array)
-    google: {
-      families: ['Indie Flower']
-    }
-
-};*/
 var game = new Phaser.Game('100', '100', Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
   var GROUND_LEVEL;
@@ -23,10 +9,6 @@ var game = new Phaser.Game('100', '100', Phaser.AUTO, '', { preload: preload, cr
     game.load.spritesheet('amish', 'assets/images/amish.png', 80, 80);
     game.load.spritesheet('grass', 'assets/images/grass.png', 100, 75);
   }
-
-  function createText() {
-
-  };
 
   function create() {
 
