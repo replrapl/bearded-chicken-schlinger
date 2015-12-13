@@ -23,6 +23,7 @@ function preload() {
   game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
   game.load.spritesheet('chicky', 'assets/images/chicky.png', 80, 80);
   game.load.spritesheet('amish', 'assets/images/amish.png', 80, 80);
+  game.load.spritesheet('grass', 'assets/images/grass.png', 100, 75);
 }
 
 function createText() {
@@ -36,7 +37,7 @@ function create() {
   // Capture mouse events
   this.game.input.mouse.capture = true;
 
-  var graphics = this.game.add.graphics(0, 500);
+  var graphics = this.game.add.graphics(0, 0);
 
   // Ground
   var ground = new Ground(game, graphics);
@@ -47,7 +48,7 @@ function create() {
   // chick.tweenHeight(150, 1);
 
   // Amish
-  amish = new Amish(game, 100, 420);
+  amish = new Amish(game, 100, game.scale.height - 260);
 
   // Initialize cursor keys
   cursors = game.input.keyboard.createCursorKeys();

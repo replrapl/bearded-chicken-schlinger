@@ -42,11 +42,11 @@ Amish.prototype.harm = function(amount) {
 
 Amish.prototype.drawHealthPool = function() {
   // Display Health Pool
-  this.game.add.text(100, 550, 'HEALTH', {
+  this.game.add.text(100, this.game.scale.height - 85, 'HEALTH', {
     font: 'bold 15pt Indie Flower',
     fill: '#59cfa8'
   });
-  this.healthText = this.game.add.text(200, 550, this.health, {
+  this.healthText = this.game.add.text(200, this.game.scale.height - 85, this.health, {
     font: 'normal 15pt Indie Flower',
     fill: '#59cfa8'
   });
