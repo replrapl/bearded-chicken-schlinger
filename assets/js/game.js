@@ -29,8 +29,6 @@ function createText() {
 
 function create() {
 
-  // game.physics.startSystem(Phaser.Physics.ARCADE);
-
   // Capture mouse events
   this.game.input.mouse.capture = true;
 

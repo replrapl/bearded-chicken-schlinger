@@ -13,7 +13,7 @@ Chicken = function(index, x, y, game){
   this.body.position.x = x;
   this.body.position.y = y;
   this.body.body.setSize(80, 80, 500, 16);
-  this.body.anchor.setTo(0.5, 1);
+  this.body.anchor.setTo(0.5, 0.5);
   // this.velocityX = 0;
   this.velocityY = 0;
   this.stepSize = 0;
@@ -283,7 +283,7 @@ Chicken.prototype.loseWeight = function(){
 }
 // recalculate size of chicken
 Chicken.prototype.calcSize = function(){
-  this.collisionRadius = this.collisionRadius + this.girth * 10
+  this.collisionRadius = this.collisionRadius + this.girth * 20
   this.body.scale.setTo(1 + this.girth * 0.15, 1 + this.girth * 0.15)
 }
 
