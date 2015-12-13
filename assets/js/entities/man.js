@@ -27,6 +27,7 @@ var Man = function(game, x, y) {
   this.foodTime = 0;
   this.isWindingUp = false;
   this.windup = 0;
+  this.maxWindup = 500;
 
   // Health pool
   this.dead = false;
@@ -116,8 +117,8 @@ Man.prototype.update = function(avoidMes) {
 
   if (this.isWindingUp) {
     this.windup += 10;
-    if (this.windup > 500) {
-      this.windup = 500
+    if (this.windup > this.maxWindup) {
+      this.windup = this.maxWindup
     }
   }
 

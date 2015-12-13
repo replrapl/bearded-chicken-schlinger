@@ -36,6 +36,20 @@ function create() {
   man = new Man(game, 100, game.scale.height - 260);
   man.drawHealthPool();
 
+  // Windup meter
+  windupBar = new ProgressBar(game, {
+    x: 300,
+    y: 300,
+    width: 100,
+    height: 20,
+    color: 0xb54167,
+    alpha: 1,
+    fill: {
+      color: 0x73af53,
+      alpha: 1
+    }
+  });
+
   // Initialize cursor keys
   cursors = game.input.keyboard.createCursorKeys();
 }
@@ -43,8 +57,9 @@ function create() {
 function update() {
   man.player.body.velocity.setTo(0, 0);
 
-  // Probably want to make this a call to a move function
+  windupBar.fillTo((man.windup / man.maxWindup));
 
+  // Probably want to make this a call to a move function
   if (cursors.left.isDown) {
     man.move(LEFT);
   } else if (cursors.right.isDown) {
