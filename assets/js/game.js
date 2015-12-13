@@ -22,24 +22,9 @@ function create() {
   // Capture mouse events
   game.input.mouse.capture = true;
 
-  var graphics = this.game.add.graphics(0, GROUND_LEVEL);
-
-  // Ground
-  var ground = new Ground(game, graphics);
-
-  // Chicken
-  chick = new Chicken(1, 100, 300, game);
-  chick.startWander(20000)
-    // chick.tweenHeight(150, 1);
-
-  // Man
-  man = new Man(game, 100, game.scale.height - 260);
-  man.drawHealthPool();
-console.log(game.scale.height);
+  console.log(game.scale.height);
   // Windup meter
-  windupMeter = new WindupMeter(game, {
-    x: 300,
-    y: game.scale.height - 500,
+  windupMeter = new WindupMeter(game, 250, game.scale.height - 85, {
     width: 100,
     height: 20,
     color: 0xb54167,
@@ -50,6 +35,18 @@ console.log(game.scale.height);
     }
   });
 
+  // Ground
+  var ground = new Ground(game);
+
+  // Chicken
+  chick = new Chicken(1, 100, 300, game);
+  chick.startWander(20000)
+    // chick.tweenHeight(150, 1);
+
+  // Man
+  man = new Man(game, 100, game.scale.height - 260);
+  man.drawHealthPool();
+
   // Initialize cursor keys
   cursors = game.input.keyboard.createCursorKeys();
 }
@@ -57,6 +54,7 @@ console.log(game.scale.height);
 function update() {
   man.player.body.velocity.setTo(0, 0);
 
+  // Update windup meter
   windupMeter.fillTo(man.windupPercentage());
 
   // Probably want to make this a call to a move function
