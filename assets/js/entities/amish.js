@@ -52,7 +52,55 @@ Amish.prototype.drawHealthPool = function() {
   });
 };
 
-Amish.prototype.update = function() {
+Amish.prototype.collided = function(obstacle, distance){
+  // Run collision
+  var f_x = obstacle.position.x,
+    f_y = obstacle.position.y,
+    x = this.body.position.x,
+    y = this.body.position.y;
+
+  var d = Math.sqrt(Math.pow(y - f_y, 2) + Math.pow(x - f_x, 2))
+
+  if(d < distance){
+    var h, v;
+    if((x - f_x) > 0){
+      h = -1 // obstacle on left
+    } else {
+      h = 1 // obstacle on right
+    }
+    if ((y - f_y) > 0){
+      v = 1 // obstacle above
+    } else {
+      v = -1 // obstacle below
+    }
+    return {x: h, y: v}
+  }
+  return
+}
+
+Amish.prototype.update = function(avoidMes) {
+
+  if(avoidMes){
+
+    var coordinates = {};
+    // avoids
+    for(var i = 0 ; i < avoidMes.length ; i++){
+      coordinates = this.collided(avoidMes[i], 500)
+      if(coordinates){
+        // console.log("AVOID!!!")
+        // this.avoidObstacle(coordinates.x, coordinates.y)
+      }
+    }
+
+    // dies
+    for(var i = 0 ; i < avoidMes.length ; i++){
+      if(this.collided(avoidMes[i], 50)){
+        console.log("OUCH!!!")
+        avoidMes[i].kill()
+      }
+    }
+  }
+
   // Health pool testing
   if (this.harmButton.isDown) {
     this.harm(2);

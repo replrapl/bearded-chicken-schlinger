@@ -62,7 +62,7 @@ function update() {
   else if (cursors.right.isDown) {
     amish.player.body.velocity.x = 200;
   }
-  amish.update();
+  amish.update(chick.eggs.children);
 
   // chick stuff
   chick.update(amish.foods.children);
