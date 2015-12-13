@@ -32,6 +32,8 @@ Man = function (game, x, y) {
 	this.dead = false;
 	this.health = 100;
 	this.harmButton = this.game.input.keyboard.addKey(Phaser.Keyboard.H);
+  this.left = this.game.input.keyboard.addKey(Phaser.Keyboard.A);
+  this.right = this.game.input.keyboard.addKey(Phaser.Keyboard.D);
 	this.harmTime = 0;
 };
 
@@ -70,6 +72,8 @@ Man.prototype.move = function (dir) {
 
 Man.prototype.update = function (avoidMes) {
 
+  this.player.body.velocity.setTo(0, 0);
+
 	if (avoidMes) {
 		// dies
 		for (var i = 0; i < avoidMes.length; i++) {
@@ -93,6 +97,12 @@ Man.prototype.update = function (avoidMes) {
 			this.windup = 500
 		}
 	}
+
+  if(this.left.isDown){
+    man.move(LEFT);
+  } else if(this.right.isDown){
+    man.move(RIGHT);
+  }
 
 	// fats
 	if (this.game.input.activePointer.leftButton.isDown) {

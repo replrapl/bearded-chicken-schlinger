@@ -41,15 +41,8 @@ function create() {
 }
 
 function update() {
-  man.player.body.velocity.setTo(0, 0);
 
-  // Probably want to make this a call to a move function
-
-  if (cursors.left.isDown) {
-    man.move(LEFT);
-  } else if (cursors.right.isDown) {
-    man.move(RIGHT);
-  }
+  // man stuff
   man.update(chick.eggs.children);
 
   // chick stuff
