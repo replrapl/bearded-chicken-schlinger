@@ -111,13 +111,13 @@ Amish.prototype.update = function(avoidMes) {
   // fats
   if (this.game.input.activePointer.leftButton.isDown) {
     this.isWindingUp = true;
-    console.log("WINDING UP:", this.windup)
+    // console.log("WINDING UP:", this.windup)
   } else if(this.isWindingUp){
     // only fire when button is released
     this.isWindingUp = false;
     this.schling(this.windup);
     this.windup = 0;
-    console.log("DONE")
+    // console.log("DONE")
   }
 };
 

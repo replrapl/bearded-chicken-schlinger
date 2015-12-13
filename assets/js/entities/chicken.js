@@ -152,55 +152,71 @@ Chicken.prototype.avoidObstacle = function(){
 }
 
 // checks key presses and positions
-Chicken.prototype.update = function(avoidMes /* array of things to avoid */){
+Chicken.prototype.update = function(avoidMes /* array of things to avoid */, ground_level){
 
-  if(avoidMes){
+  if(!this.dead){
+    if(avoidMes){
 
-    var coordinates = {};
-    // avoids
-    for(var i = 0 ; i < avoidMes.length ; i++){
-      coordinates = this.collided(avoidMes[i], 500)
-      if(coordinates){
-        // console.log("AVOID!!!")
-        this.avoidObstacle(coordinates.x, coordinates.y)
+      var coordinates = {};
+      // avoids
+      for(var i = 0 ; i < avoidMes.length ; i++){
+        coordinates = this.collided(avoidMes[i], 500)
+        if(coordinates){
+          // console.log("AVOID!!!")
+          this.avoidObstacle(coordinates.x, coordinates.y)
+        }
+      }
+
+      // dies
+      for(var i = 0 ; i < avoidMes.length ; i++){
+        if(this.collided(avoidMes[i], 50)){
+          // console.log("EAT!!!")
+          this.fatten()
+          avoidMes[i].kill()
+        }
       }
     }
 
-    // dies
-    for(var i = 0 ; i < avoidMes.length ; i++){
-      if(this.collided(avoidMes[i], 50)){
-        console.log("EAT!!!")
-        this.fatten()
-        avoidMes[i].kill()
+    if(Math.abs(this.stepSize) > 0){
+      this.velocityY -= Math.sign(this.velocityY) * this.stepSize;
+      this.body.position.y += Math.sign(this.velocityY) * this.stepSize;
+
+      if(Math.abs(this.velocityY) < 0.25){
+        this.velocityY = 0;
+        this.stepSize = 0;
       }
     }
-  }
 
-  if(Math.abs(this.stepSize) > 0){
-    this.velocityY -= Math.sign(this.velocityY) * this.stepSize;
-    this.body.position.y += Math.sign(this.velocityY) * this.stepSize;
-
-    if(Math.abs(this.velocityY) < 0.25){
-      this.velocityY = 0;
-      this.stepSize = 0;
+    if(this.body.position.y > ground_level){
+      this.slaughter()
     }
-  }
 
-  // eggs
-  if (this.eggButton.isDown) {
-    this.layEgg();
-  }
+    {
+      chick.moveX(1)
+      chick.moveY((Math.round(Math.random() - 1) + 0.5) * Math.floor((Math.random() * 2) + 1))
+    }
+    /*// eggs
+    if (this.eggButton.isDown) {
+      this.layEgg();
+    }
 
-  // poos
-  if (this.pooButton.isDown) {
-    this.poo();
-  }
+    // poos
+    if (this.pooButton.isDown) {
+      this.poo();
+    }
 
-  // fats
-  if (this.fattenButton.isDown) {
-    this.fatten();
+    // fats
+    if (this.fattenButton.isDown) {
+      this.fatten();
+    }*/
   }
-}
+};
+
+Chicken.prototype.slaughter = function(){
+  console.log("DIE!!!")
+  this.dead = true;
+};
+
 // start a vertical tween
 Chicken.prototype.tweenHeight = function(y, stepSize){
   this.velocityY = y;
@@ -240,7 +256,7 @@ Chicken.prototype.fatten = function(){
     }
 
     // move
-    this.tweenHeight(30, 1)
+    this.tweenHeight(50, 1)
     // scale
     this.calcSize();
     this.fatTime = this.game.time.now + 2000;
@@ -279,5 +295,5 @@ Chicken.prototype.evade = function(foods){
 }
 
 function evade(){
-    console.log('move!!')
+    // console.log('move!!')
 }
