@@ -58,7 +58,7 @@ Amish.prototype.drawHealthPool = function() {
   });
 };
 
-Amish.prototype.collided = function(obstacle, distance){
+/*Amish.prototype.collided = function(obstacle, distance){
   // Run collision
   var f_x = obstacle.position.x,
     f_y = obstacle.position.y,
@@ -82,17 +82,20 @@ Amish.prototype.collided = function(obstacle, distance){
     return {x: h, y: v}
   }
   return
-}
+}*/
 
 Amish.prototype.update = function(avoidMes) {
 
   if(avoidMes){
     // dies
     for(var i = 0 ; i < avoidMes.length ; i++){
-      if(this.collided(avoidMes[i], 50)){
-        this.harm(2);
-        avoidMes[i].kill()
-      }
+      // if(this.collided(avoidMes[i], 50)){
+      // if(boundingBoxCollision(
+      //     avoidMes[i].x, avoidMes[i].y
+      //     this.player.position.x, this.player.position.y, 50)){
+      //   this.harm(2);
+      //   avoidMes[i].kill()
+      // }
     }
   }
 
