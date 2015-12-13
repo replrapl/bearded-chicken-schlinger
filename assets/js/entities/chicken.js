@@ -6,15 +6,14 @@ Chicken = function(index, x, y, game){
   
   this.bounding = game.add.sprite(2000, 2000, 'chicky');
   this.game.physics.enable(this.bounding, Phaser.Physics.ARCADE);
-  this.bounding.body.setSize(2000, 2000, 500, 16)
-  console.log("==+++",this.bounding)
+  // this.bounding.body.setSize(2000, 2000, 500, 16)
 
   this.body = game.add.sprite(80, 80, 'chicky');
   this.game.physics.enable(this.body, Phaser.Physics.ARCADE);
   this.body.position.x = x;
   this.body.position.y = y;
   this.body.body.setSize(80, 80, 500, 16);
-  this.body.anchor.setTo(0.5, 1);
+  this.body.anchor.setTo(0.5, 0.5);
   // this.velocityX = 0;
   this.velocityY = 0;
   this.stepSize = 0;
@@ -22,6 +21,9 @@ Chicken = function(index, x, y, game){
 
   this.pooStepSize = 1.5;
   this.eggStepSize = 0.5;
+
+  this.collisionRadius = 50;
+  this.avoidRadius = 100;
 
   this.loop = function(){
     // this.fatten(0.5)
@@ -38,7 +40,7 @@ Chicken = function(index, x, y, game){
   this.eggs.physicsBodyType = Phaser.Physics.ARCADE;
   this.eggs.createMultiple(30, 'bullet');
   this.eggs.setAll('anchor.x', 0.5);
-  this.eggs.setAll('anchor.y', 1);
+  this.eggs.setAll('anchor.y', 0.5);
   this.eggs.setAll('outOfBoundsKill', true);
   this.eggs.setAll('checkWorldBounds', true);
   // button
@@ -71,45 +73,31 @@ Chicken.prototype.startWander = function(time){
   this.loop = setInterval(this.loop.bind(this), time)
 }
 
-Chicken.prototype.collided = function(foods, distance){
+Chicken.prototype.collided = function(food, distance){
   // Run collision
+  var f_x = food.position.x,
+    f_y = food.position.y,
+    x = this.body.position.x,
+    y = this.body.position.y;
 
-  for(var i = 0 ; i < foods.children.length ; i++){
-    var f_x = foods.children[i].position.x,
-      f_y = foods.children[i].position.y,
-      x = this.body.position.x,
-      y = this.body.position.y;
+  var d = Math.sqrt(Math.pow(y - f_y, 2) + Math.pow(x - f_x, 2))
 
-      var d = Math.sqrt(Math.pow(y - f_y, 2) + Math.pow(x - f_x, 2))
-
-      if(d < distance){
-        var h, v;
-        if((x - f_x) > 0){
-          h = -1 // food on left
-        } else {
-          h = 1 // food on right
-        }
-        if ((y - f_y) > 0){
-          v = 1 // food above
-        } else {
-          v = -1 // food below
-        }
-        return {x: h, y: v}
-      }
-      return
+  if(d < distance){
+    var h, v;
+    if((x - f_x) > 0){
+      h = -1 // food on left
+    } else {
+      h = 1 // food on right
+    }
+    if ((y - f_y) > 0){
+      v = 1 // food above
+    } else {
+      v = -1 // food below
+    }
+    return {x: h, y: v}
   }
-
-  /*game.physics.arcade.overlap(this.bounding, foods.children, function(a,b){
-    console.log('-++++-', a, b)
-  }, null, this);*/
+  return
 }
-
-/*Chicken.prototype.foodNearby = function(foods){
-  //  Run collision
-  this.game.physics.arcade.overlap([foods], this.bounding, function(a, b){
-    console.log('====>', a, b)
-  }, null, this);
-}*/
 
 // lays an egg
 Chicken.prototype.layEgg = function(){
@@ -159,51 +147,76 @@ Chicken.prototype.poo = function(){
   }
 }
 
-// checks key presses and positions
-Chicken.prototype.update = function(avoidMes /* array of things to avoid */){
+Chicken.prototype.avoidObstacle = function(){
 
-  if(avoidMes){
-    var coordinates = {};
-    // avoids
-    for(var i = 0 ; i < avoidMes.length ; i++){
-      coordinates = this.collided(avoidMes[i], 500)
-    }
-
-    // dies
-    for(var i = 0 ; i < avoidMes.length ; i++){
-      this.collided(avoidMes[i], 100)
-    }
-
-    if(coordinates){
-      this.avoidObstacle(coordinates.x, coordinates.y)
-    }
-  }
-
-  if(Math.abs(this.stepSize) > 0){
-    this.velocityY -= Math.sign(this.velocityY) * this.stepSize;
-    this.body.position.y += Math.sign(this.velocityY) * this.stepSize;
-
-    if(Math.abs(this.velocityY) < 0.25){
-      this.velocityY = 0;
-      this.stepSize = 0;
-    }
-  }
-
-  // eggs
-  if (this.eggButton.isDown) {
-    this.layEgg();
-  }
-
-  // poos
-  if (this.pooButton.isDown) {
-    this.poo();
-  }
-
-  // fats
-  if (this.fattenButton.isDown) {
-    this.fatten();
-  }
 }
+
+// checks key presses and positions
+Chicken.prototype.update = function(avoidMes /* array of things to avoid */, ground_level){
+
+  if(!this.dead){
+    if(avoidMes){
+
+      var coordinates = {};
+      // avoids
+      for(var i = 0 ; i < avoidMes.length ; i++){
+        coordinates = this.collided(avoidMes[i], 500)
+        if(coordinates){
+          // console.log("AVOID!!!")
+          this.avoidObstacle(coordinates.x, coordinates.y)
+        }
+      }
+
+      // dies
+      for(var i = 0 ; i < avoidMes.length ; i++){
+        if(this.collided(avoidMes[i], 50)){
+          // console.log("EAT!!!")
+          this.fatten()
+          avoidMes[i].kill()
+        }
+      }
+    }
+
+    if(Math.abs(this.stepSize) > 0){
+      this.velocityY -= Math.sign(this.velocityY) * this.stepSize;
+      this.body.position.y += Math.sign(this.velocityY) * this.stepSize;
+
+      if(Math.abs(this.velocityY) < 0.25){
+        this.velocityY = 0;
+        this.stepSize = 0;
+      }
+    }
+
+    if(this.body.position.y > ground_level){
+      this.slaughter()
+    }
+
+    {
+      chick.moveX(1)
+      chick.moveY((Math.round(Math.random() - 1) + 0.5) * Math.floor((Math.random() * 2) + 1))
+    }
+    /*// eggs
+    if (this.eggButton.isDown) {
+      this.layEgg();
+    }
+
+    // poos
+    if (this.pooButton.isDown) {
+      this.poo();
+    }
+
+    // fats
+    if (this.fattenButton.isDown) {
+      this.fatten();
+    }*/
+  }
+};
+
+Chicken.prototype.slaughter = function(){
+  console.log("DIE!!!")
+  this.dead = true;
+};
+
 // start a vertical tween
 Chicken.prototype.tweenHeight = function(y, stepSize){
   this.velocityY = y;
@@ -243,10 +256,10 @@ Chicken.prototype.fatten = function(){
     }
 
     // move
-    this.tweenHeight(100, 1)
+    this.tweenHeight(50, 1)
     // scale
     this.calcSize();
-    this.fatTime = this.game.time.now + 500;
+    this.fatTime = this.game.time.now + 2000;
   }
 }
 // lose some weight
@@ -265,12 +278,13 @@ Chicken.prototype.loseWeight = function(){
 
     // scale
     this.calcSize();
-    this.fatTime = this.game.time.now + 500;
+    this.fatTime = this.game.time.now + 2000;
   }
 }
 // recalculate size of chicken
 Chicken.prototype.calcSize = function(){
-  this.body.scale.setTo(1 + this.girth * 0.2, 1 + this.girth * 0.2)
+  this.collisionRadius = this.collisionRadius + this.girth * 20
+  this.body.scale.setTo(1 + this.girth * 0.15, 1 + this.girth * 0.15)
 }
 
 Chicken.prototype.evade = function(foods){
@@ -281,5 +295,5 @@ Chicken.prototype.evade = function(foods){
 }
 
 function evade(){
-    console.log('move!!')
+    // console.log('move!!')
 }

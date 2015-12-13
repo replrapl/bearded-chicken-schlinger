@@ -14,7 +14,7 @@ var Amish = function(game, x, y) {
   this.foods.physicsBodyType = Phaser.Physics.ARCADE;
   this.foods.createMultiple(5, 'bullet');
   this.foods.setAll('anchor.x', 0.5);
-  this.foods.setAll('anchor.y', 1);
+  this.foods.setAll('anchor.y', 0);
   this.foods.setAll('outOfBoundsKill', true);
   this.foods.setAll('checkWorldBounds', true);
 
@@ -27,15 +27,21 @@ var Amish = function(game, x, y) {
   this.dead = false;
   this.health = 100;
   this.harmButton = this.game.input.keyboard.addKey(Phaser.Keyboard.H);
+  this.harmTime = 0;
 };
 
 Amish.prototype.harm = function(amount) {
   if(this.dead === false) {
-    this.health -= amount;
-    this.healthText.text = this.health;
+    // prevents too many harms in a short amount of time
+    if (this.game.time.now > this.harmTime) {
+      this.health -= amount;
+      this.healthText.text = this.health;
 
-    if(this.health === 0) {
-      this.dead = true;
+      if(this.health === 0) {
+        this.dead = true;
+      }
+
+      this.harmTime = this.game.time.now + 2000;
     }
   }
 };
@@ -52,7 +58,44 @@ Amish.prototype.drawHealthPool = function() {
   });
 };
 
-Amish.prototype.update = function() {
+Amish.prototype.collided = function(obstacle, distance){
+  // Run collision
+  var f_x = obstacle.position.x,
+    f_y = obstacle.position.y,
+    x = this.player.position.x,
+    y = this.player.position.y;
+
+  var d = Math.sqrt(Math.pow(y - f_y, 2) + Math.pow(x - f_x, 2))
+
+  if(d < distance){
+    var h, v;
+    if((x - f_x) > 0){
+      h = -1 // obstacle on left
+    } else {
+      h = 1 // obstacle on right
+    }
+    if ((y - f_y) > 0){
+      v = 1 // obstacle above
+    } else {
+      v = -1 // obstacle below
+    }
+    return {x: h, y: v}
+  }
+  return
+}
+
+Amish.prototype.update = function(avoidMes) {
+
+  if(avoidMes){
+    // dies
+    for(var i = 0 ; i < avoidMes.length ; i++){
+      if(this.collided(avoidMes[i], 50)){
+        this.harm(2);
+        avoidMes[i].kill()
+      }
+    }
+  }
+
   // Health pool testing
   if (this.harmButton.isDown) {
     this.harm(2);
@@ -68,13 +111,13 @@ Amish.prototype.update = function() {
   // fats
   if (this.game.input.activePointer.leftButton.isDown) {
     this.isWindingUp = true;
-    console.log("WINDING UP:", this.windup)
+    // console.log("WINDING UP:", this.windup)
   } else if(this.isWindingUp){
     // only fire when button is released
     this.isWindingUp = false;
     this.schling(this.windup);
     this.windup = 0;
-    console.log("DONE")
+    // console.log("DONE")
   }
 };
 

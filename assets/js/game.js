@@ -14,9 +14,7 @@ WebFontConfig = {
 };
 
 var game = new Phaser.Game('100', '100', Phaser.AUTO, '', { preload: preload, create: create, update: update });
-
-var amish;
-var cursors;
+var GROUND_LEVEL = 500;
 
 function preload() {
   //  Load the Google WebFont Loader script
@@ -32,12 +30,10 @@ function createText() {
 
 function create() {
 
-  // game.physics.startSystem(Phaser.Physics.ARCADE);
-
   // Capture mouse events
   this.game.input.mouse.capture = true;
 
-  var graphics = this.game.add.graphics(0, 0);
+  var graphics = this.game.add.graphics(0, GROUND_LEVEL);
 
   // Ground
   var ground = new Ground(game, graphics);
@@ -63,11 +59,8 @@ function update() {
   else if (cursors.right.isDown) {
     amish.player.body.velocity.x = 200;
   }
-  amish.update();
+  amish.update(chick.eggs.children);
 
   // chick stuff
-  chick.update();
-  chick.collided(amish.foods, 200)
-  chick.moveX(1)
-  chick.moveY((Math.round(Math.random() - 1) + 0.5) * Math.floor((Math.random() * 2) + 1))
+  chick.update(amish.foods.children, GROUND_LEVEL);
 }
