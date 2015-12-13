@@ -21,10 +21,10 @@ var ProgressBar = function(game, params) {
   this.fillTo(1);
 };
 
-ProgressBar.prototype.drawInnerBar = function(percent) {
+ProgressBar.prototype.drawInnerBar = function(percentage) {
   this.innerBar.clear();
   this.innerBar.beginFill(this.fillColor, this.fillAlpha);
-  this.innerBar.drawRect(this.x, this.y, this.width * percent, this.height - 1);
+  this.innerBar.drawRect(this.x, this.y, this.width * percentage, this.height - 1);
   this.innerBar.endFill();
 };
 

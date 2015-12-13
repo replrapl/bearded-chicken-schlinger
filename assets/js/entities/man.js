@@ -135,6 +135,10 @@ Man.prototype.update = function(avoidMes) {
   }
 };
 
+Man.prototype.windupPercentage = function() {
+  return this.windup / this.maxWindup;
+};
+
 Man.prototype.schling = function(velocity) {
   // prevents too many food layings in a short amount of time
   if (this.game.time.now > this.foodTime) {

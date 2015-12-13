@@ -37,7 +37,7 @@ function create() {
   man.drawHealthPool();
 
   // Windup meter
-  windupBar = new ProgressBar(game, {
+  windupMeter = new WindupMeter(game, {
     x: 300,
     y: 300,
     width: 100,
@@ -57,7 +57,7 @@ function create() {
 function update() {
   man.player.body.velocity.setTo(0, 0);
 
-  windupBar.fillTo((man.windup / man.maxWindup));
+  windupMeter.fillTo(man.windupPercentage());
 
   // Probably want to make this a call to a move function
   if (cursors.left.isDown) {
