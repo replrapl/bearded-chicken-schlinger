@@ -35,11 +35,11 @@ function create() {
   // Man
   man = new Man(game, 100, game.scale.height - 260);
   man.drawHealthPool();
-
+console.log(game.scale.height);
   // Windup meter
   windupMeter = new WindupMeter(game, {
     x: 300,
-    y: 300,
+    y: game.scale.height - 500,
     width: 100,
     height: 20,
     color: 0xb54167,

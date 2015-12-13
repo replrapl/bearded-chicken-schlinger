@@ -11,6 +11,7 @@ var ProgressBar = function(game, params) {
   this.fill = params.fill;
 
   // Draw initial bar
+  console.log(this.x, this.y);
   this.outerBar = game.add.graphics(this.x, this.y);
   this.outerBar.lineStyle(1, this.color, this.alpha)
   this.outerBar.drawRect(this.x, this.y, this.width, this.height);
@@ -24,7 +25,7 @@ var ProgressBar = function(game, params) {
 ProgressBar.prototype.drawInnerBar = function(percentage) {
   this.innerBar.clear();
   this.innerBar.beginFill(this.fillColor, this.fillAlpha);
-  this.innerBar.drawRect(this.x, this.y, this.width * percentage, this.height - 1);
+  this.innerBar.drawRect(this.x, this.y, (percentage === 0 ? percentage : this.width * percentage - 1), this.height - 1);
   this.innerBar.endFill();
 };
 
