@@ -14,7 +14,7 @@ WebFontConfig = {
 };
 
 var game = new Phaser.Game('100', '100', Phaser.AUTO, '', { preload: preload, create: create, update: update });
-var GROUND_LEVEL = 500;
+var GROUND_LEVEL = game.scale.height - 260;
 
 function preload() {
   //  Load the Google WebFont Loader script
@@ -40,7 +40,7 @@ function create() {
 
   // Chicken
   chick = new Chicken(1, 100, 300, game);
-  chick.startWander(5000)
+  chick.startWander(20000)
   // chick.tweenHeight(150, 1);
 
   // Amish

@@ -256,14 +256,14 @@ Chicken.prototype.fatten = function(){
 
     // increment girths
     this.girth++;
-    if(this.girth > 10){
-      this.girth = 10
+    if(this.girth > 100){
+      this.girth = 100
     } else if(this.girth < 1){
       this.girth = 1
     }
 
     // move
-    this.tweenHeight(50, 1)
+    this.tweenHeight(200, 1)
     // scale
     this.calcSize();
     this.fatTime = this.game.time.now + 2000;
