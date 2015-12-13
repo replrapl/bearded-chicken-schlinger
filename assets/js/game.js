@@ -1,6 +1,8 @@
 var game = new Phaser.Game('100', '100', Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
   var GROUND_LEVEL;
+  var LEFT = 'left';
+  var RIGHT = 'right';
 
   function preload() {
     //  Load the Google WebFont Loader script
@@ -39,11 +41,12 @@ var game = new Phaser.Game('100', '100', Phaser.AUTO, '', { preload: preload, cr
   function update() {
     amish.player.body.velocity.setTo(0, 0);
 
+    // Probably want to make this a call to a move function
+
     if (cursors.left.isDown) {
-      amish.player.body.velocity.x = -200;
-    }
-    else if (cursors.right.isDown) {
-      amish.player.body.velocity.x = 200;
+      amish.move(LEFT);
+    } else if (cursors.right.isDown) {
+      amish.move(RIGHT);
     }
     amish.update(chick.eggs.children);
 

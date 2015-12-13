@@ -5,8 +5,14 @@ var Amish = function(game, x, y) {
   this.player.anchor.setTo(0, 0);
   game.physics.enable(this.player, Phaser.Physics.ARCADE);
 
+  // Positioning and movement
   this.player.position.x = x;
   this.player.position.y = y;
+  this.velocity = 200;
+  this.movementConstraints = {
+    left: 0,
+    right: this.game.scale.width
+  };
 
   //  Our bullet group
   this.foods = this.game.add.group();
@@ -31,13 +37,13 @@ var Amish = function(game, x, y) {
 };
 
 Amish.prototype.harm = function(amount) {
-  if(this.dead === false) {
+  if (this.dead === false) {
     // prevents too many harms in a short amount of time
     if (this.game.time.now > this.harmTime) {
       this.health -= amount;
       this.healthText.text = this.health;
 
-      if(this.health === 0) {
+      if (this.health === 0) {
         this.dead = true;
       }
 
@@ -84,11 +90,16 @@ Amish.prototype.drawHealthPool = function() {
   return
 }*/
 
+// Move the player using a direction and velocity
+Amish.prototype.move = function(dir) {
+  this.player.body.velocity.x = (dir === 'left' ? this.velocity * -1 : this.velocity);
+};
+
 Amish.prototype.update = function(avoidMes) {
 
-  if(avoidMes){
+  if (avoidMes) {
     // dies
-    for(var i = 0 ; i < avoidMes.length ; i++){
+    for (var i = 0; i < avoidMes.length; i++) {
       // if(this.collided(avoidMes[i], 50)){
       // if(boundingBoxCollision(
       //     avoidMes[i].x, avoidMes[i].y
@@ -104,9 +115,9 @@ Amish.prototype.update = function(avoidMes) {
     this.harm(2);
   }
 
-  if(this.isWindingUp){
+  if (this.isWindingUp) {
     this.windup += 10;
-    if(this.windup > 500){
+    if (this.windup > 500) {
       this.windup = 500
     }
   }
@@ -115,7 +126,7 @@ Amish.prototype.update = function(avoidMes) {
   if (this.game.input.activePointer.leftButton.isDown) {
     this.isWindingUp = true;
     // console.log("WINDING UP:", this.windup)
-  } else if(this.isWindingUp){
+  } else if (this.isWindingUp) {
     // only fire when button is released
     this.isWindingUp = false;
     this.schling(this.windup);
@@ -124,7 +135,7 @@ Amish.prototype.update = function(avoidMes) {
   }
 };
 
-Amish.prototype.schling = function(velocity){
+Amish.prototype.schling = function(velocity) {
   // prevents too many food layings in a short amount of time
   if (this.game.time.now > this.foodTime) {
 
@@ -140,14 +151,13 @@ Amish.prototype.schling = function(velocity){
         game.input.activePointer.position.y
       );
 
-      food.rotation = game.physics.arcade.moveToPointer(food, 1, game.input.activePointer,
-        (500/velocity)*(distanceToTarget));
+      food.rotation = game.physics.arcade.moveToPointer(food, 1, game.input.activePointer, (500 / velocity) * (distanceToTarget));
       food.body.gravity.set(0, 280);
       this.foodTime = this.game.time.now + 250;
     }
   }
 };
 
-function pyth(x1, y1, x2, y2){
-  return Math.sqrt(Math.pow(x1 - x2,2) + Math.pow(y1 - y2,2))
+function pyth(x1, y1, x2, y2) {
+  return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2))
 }
