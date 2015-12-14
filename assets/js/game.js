@@ -16,6 +16,7 @@ function preload() {
   game.load.spritesheet('chicky_4', 'assets/images/original_pixel_turkey_scaled_4.png', 256, 256, 5);
   game.load.spritesheet('man', 'assets/images/man.png', 80, 80);
   game.load.spritesheet('grass', 'assets/images/grass.png', 100, 75);
+  game.load.audio('schling', 'assets/sounds/schling.wav');
 }
 
 function create() {
