@@ -27,7 +27,7 @@ Man = function (game, x, y) {
 	this.foodTime = 0;
 	this.isWindingUp = false;
 	this.windup = 0;
-  this.maxWindup = 500;
+  this.maxWindup = 250;
 
 	// Health pool
 	this.dead = false;
@@ -140,7 +140,7 @@ Man.prototype.schling = function (velocity) {
 				game.input.activePointer.position.y
 			);
 
-			food.rotation = game.physics.arcade.moveToPointer(food, 1, game.input.activePointer, (500 / velocity) * (distanceToTarget));
+			food.rotation = game.physics.arcade.moveToPointer(food, 1, game.input.activePointer, (this.maxWindup / velocity) * (distanceToTarget));
 			food.body.gravity.set(0, 280);
 			this.foodTime = this.game.time.now + 250;
 		}
