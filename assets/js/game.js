@@ -16,6 +16,7 @@ function preload() {
   game.load.spritesheet('chicky_4', 'assets/images/original_pixel_turkey_scaled_4.png', 256, 256, 5);
   game.load.spritesheet('man', 'assets/images/man.png', 80, 80);
   game.load.spritesheet('grass', 'assets/images/grass.png', 100, 75);
+  game.load.audio('schling', 'assets/sounds/schling.wav');
 }
 
 function create() {
@@ -37,6 +38,21 @@ function create() {
     }
   });
 
+  // Man
+  man = new Man(game, 100, game.scale.height - 190);
+  man.drawHealthPool();
+
+  // Ground
+  ground = new Ground(game, 0, game.scale.height - 100, {
+    size: 1,
+    colors: [0x308b4f, 0xb49066, 0xb9775e, 0xe9d3a1, 0xafcf6c],
+    alpha: 1,
+    fill: {
+      color: 0x1c1b29,
+      alpha: 1
+    }
+  });
+
   // Windup meter
   windupMeter = new WindupMeter(game, 270, game.scale.height - 85, {
     width: 100,
@@ -48,13 +64,6 @@ function create() {
       alpha: 1
     }
   });
-
-  // Ground
-  var ground = new Ground(game);
-
-  // Man
-  man = new Man(game, 100, game.scale.height - 260);
-  man.drawHealthPool();
 
   // Chicken
   chick = new Chicken(1, 100, 100, game);

@@ -36,6 +36,9 @@ Man = function (game, x, y) {
   this.left = this.game.input.keyboard.addKey(Phaser.Keyboard.A);
   this.right = this.game.input.keyboard.addKey(Phaser.Keyboard.D);
 	this.harmTime = 0;
+
+	// Sound Effects
+	this.schlingSound = game.add.audio('schling');
 };
 
 Man.prototype.harm = function (amount) {
@@ -126,6 +129,9 @@ Man.prototype.schling = function (velocity) {
 		var food = this.foods.getFirstExists(false);
 		if (food) {
 			food.reset(this.player.body.position.x, this.player.body.position.y);
+
+			// Play schling sound
+			this.schlingSound.play();
 
 			distanceToTarget = pyth(
 				this.player.position.x,
