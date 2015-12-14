@@ -52,15 +52,15 @@ function create() {
   // Ground
   var ground = new Ground(game);
 
-  // Chicken
-  chick = new Chicken(1, 100, 200, game);
-  chick.startWander(20000)
-    // chick.tweenHeight(150, 1);
-
   // Man
   man = new Man(game, 100, game.scale.height - 260);
   man.drawHealthPool();
 
+  // Chicken
+  chick = new Chicken(1, 100, 200, game);
+  chick.startWander(20000)
+  chick.target = man;
+  
   // Initialize cursor keys
   cursors = game.input.keyboard.createCursorKeys();
 }

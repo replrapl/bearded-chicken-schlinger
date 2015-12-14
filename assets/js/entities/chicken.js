@@ -15,10 +15,12 @@ Chicken = function(index, x, y, game) {
   }
   this.sprite_index = 0;
   this.initializeSprite(x, y, this.sprite_index);
-  
+
   this.velocityY = 0;
   this.stepSize = 0;
   this.going = true;
+
+  this.target;
 
   this.pooStepSize = 1.5;
   this.eggStepSize = 0.5;
@@ -95,26 +97,26 @@ Chicken.prototype.startWander = function(time) {
 
 // lays an egg
 Chicken.prototype.layEgg = function() {
-    if (this.girth <= 1) {
-      return
-    }
+  if (this.girth <= 1) {
+    return
+  }
 
-    // prevents too many egg layings in a short amount of time
-    if (this.game.time.now > this.eggTime) {
-      // move
-      this.tweenHeight(-100, 1)
-        // lose weight
-      this.loseWeight()
+  // prevents too many egg layings in a short amount of time
+  if (this.game.time.now > this.eggTime) {
+    // move
+    this.tweenHeight(-70, 1)
+      // lose weight
+    this.loseWeight()
 
-      // handle eggs
-      var egg = this.eggs.getFirstExists(false);
-      if (egg) {
-        egg.reset(this.body.position.x, this.body.position.y);
-        egg.body.velocity.y = 400;
-        this.eggTime = this.game.time.now + 500;
-      }
+    // handle eggs
+    var egg = this.eggs.getFirstExists(false);
+    if (egg) {
+      egg.reset(this.body.position.x, this.body.position.y);
+      egg.body.velocity.y = 400;
+      this.eggTime = this.game.time.now + 500;
     }
   }
+}
   // drop a poo
 Chicken.prototype.poo = function() {
   if (this.girth <= 1) {
@@ -151,6 +153,14 @@ Chicken.prototype.update = function(avoidMes /* array of things to avoid */ , gr
   if (!this.dead) {
 
     this.calcSize()
+
+    // if(distanceBetween(this.body.position.x, this.body.position.y,
+    //   this.target.player.position.x, this.target.player.position.y) < 200)
+    var r = getRandomArbitrary(1, 31);
+    console.log(r)
+    if(r > 29){
+      this.layEgg();
+    }
 
     if (avoidMes) {
 
@@ -253,7 +263,7 @@ Chicken.prototype.fatten = function() {
       this.tweenHeight(70, 1)
         // scale
       this.calcSize();
-      this.fatTime = this.game.time.now + 2000;
+      this.fatTime = this.game.time.now + 1000;
     }
   }
   // lose some weight
@@ -269,6 +279,13 @@ Chicken.prototype.loseWeight = function() {
     } else if (this.girth < 1) {
       this.girth = 1
     }
+
+    this.sprite_index--;
+    if(this.sprite_index < 0){
+      this.sprite_index = 0;
+    }
+    // this.body = this.sprites[this.sprite_index]
+    this.initializeSprite(this.body.position.x, this.body.position.y, this.sprite_index);
 
     // scale
     this.calcSize();
