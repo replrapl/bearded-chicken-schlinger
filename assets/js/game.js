@@ -8,9 +8,9 @@ var GROUND_LEVEL;
 var LEFT = 'left';
 var RIGHT = 'right';
 
-function preload() {
+function preload() {  
   game.load.spritesheet('sky', 'assets/images/sky.png', 100, 100);
-  game.load.spritesheet('chicky', 'assets/images/Sprite-0001.png', 150, 150, 5);
+  game.load.spritesheet('chicky', 'assets/images/original_pixel_turkey_scaled_4.png', 256, 256, 5);
   game.load.spritesheet('man', 'assets/images/man.png', 80, 80);
   game.load.spritesheet('grass', 'assets/images/grass.png', 100, 75);
 }
@@ -50,7 +50,7 @@ function create() {
   var ground = new Ground(game);
 
   // Chicken
-  chick = new Chicken(1, 100, 300, game);
+  chick = new Chicken(1, 100, 200, game);
   chick.startWander(20000)
     // chick.tweenHeight(150, 1);
 

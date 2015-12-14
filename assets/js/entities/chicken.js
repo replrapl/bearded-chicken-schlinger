@@ -4,14 +4,22 @@ Chicken = function(index, x, y, game) {
   this.girth = 1;
   this.direction = 1;
 
-  this.body = game.add.sprite(100, 100, 'chicky');
+  // this.sprites = [
+  //   game.add.sprite(100, 100, 'chicky_1'),
+  //   game.add.sprite(100, 100, 'chicky_2'),
+  //   game.add.sprite(100, 100, 'chicky_3'),
+  //   game.add.sprite(100, 100, 'chicky_4'),
+  //   game.add.sprite(100, 100, 'chicky_4')
+  // ];
+
+  this.body = game.add.sprite(32, 32, 'chicky');
   this.body.animations.add('flap');
   this.body.animations.play('flap', 10, true);
 
   this.game.physics.enable(this.body, Phaser.Physics.ARCADE);
   this.body.position.x = x;
   this.body.position.y = y;
-  this.body.body.setSize(100, 100, 500, 16);
+  this.body.body.setSize(32, 32, 500, 16);
   this.body.anchor.setTo(0.5, 0.5);
   // this.velocityX = 0;
   this.velocityY = 0;
@@ -264,7 +272,7 @@ Chicken.prototype.loseWeight = function() {
   // recalculate size of chicken
 Chicken.prototype.calcSize = function() {
   this.collisionRadius = this.collisionRadius + this.girth * 50
-  this.body.scale.setTo(-this.direction * (1 + this.girth * 0.15), 1 + this.girth * 0.15)
+  this.body.scale.setTo(-this.direction * (0.4 + this.girth * 0.15), 0.4 + this.girth * 0.15)
 }
 
 Chicken.prototype.evade = function(foods) {
