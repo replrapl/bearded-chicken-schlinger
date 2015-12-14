@@ -44,7 +44,7 @@ Chicken = function(index, x, y, game) {
   this.eggs.createMultiple(5, 'egg', 0, false);
   for(var i = 0 ; i < this.eggs.children.length ; i++){
     this.eggs.children[i].animations.add('egg_fall');
-    this.eggs.children[i].animations.play('egg_fall', 10, true);
+    this.eggs.children[i].animations.play('egg_fall', 30, true);
     this.eggs.children[i].scale.setTo(0.2, 0.2)
   }
 
