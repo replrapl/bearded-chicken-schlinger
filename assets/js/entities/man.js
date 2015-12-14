@@ -27,6 +27,7 @@ Man = function (game, x, y) {
 	this.foodTime = 0;
 	this.isWindingUp = false;
 	this.windup = 0;
+  this.maxWindup = 500;
 
 	// Health pool
 	this.dead = false;
@@ -53,17 +54,16 @@ Man.prototype.harm = function (amount) {
 	}
 };
 
-Man.prototype.drawHealthPool = function () {
-	// Display Health Pool
-	this.game.add.text(100, this.game.scale.height - 85, 'HEALTH', {
-		font: 'bold 15pt Indie Flower',
-		fill: '#59cfa8'
-	});
-	this.healthText = this.game.add.text(200, this.game.scale.height - 85, this.health, {
-		font: 'normal 15pt Indie Flower',
-		fill: '#59cfa8'
-	});
-  console.log(this.healthText.position)
+Man.prototype.drawHealthPool = function() {
+  // Display Health Pool
+  this.game.add.text(100, this.game.scale.height - 85, 'Health', {
+    font: 'bold 15pt Indie Flower',
+    fill: '#59cfa8'
+  });
+  this.healthText = this.game.add.text(200, this.game.scale.height - 85, this.health, {
+    font: 'normal 15pt Indie Flower',
+    fill: '#59cfa8'
+  });
 };
 
 // Move the player using a direction and velocity
@@ -94,8 +94,8 @@ Man.prototype.update = function (avoidMes) {
 
 	if (this.isWindingUp) {
 		this.windup += 10;
-		if (this.windup > 500) {
-			this.windup = 500
+		if (this.windup > this.maxWindup) {
+			this.windup = this.maxWindup
 		}
 	}
 
@@ -139,6 +139,10 @@ Man.prototype.schling = function (velocity) {
 			this.foodTime = this.game.time.now + 250;
 		}
 	}
+};
+
+Man.prototype.windupPercentage = function() {
+  return this.windup / this.maxWindup;
 };
 
 function pyth(x1, y1, x2, y2) {

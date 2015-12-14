@@ -22,10 +22,20 @@ function create() {
   // Capture mouse events
   game.input.mouse.capture = true;
 
-  var graphics = this.game.add.graphics(0, GROUND_LEVEL);
+  // Windup meter
+  windupMeter = new WindupMeter(game, 270, game.scale.height - 85, {
+    width: 100,
+    height: 20,
+    color: 0xb54167,
+    alpha: 1,
+    fill: {
+      color: 0x73af53,
+      alpha: 1
+    }
+  });
 
   // Ground
-  var ground = new Ground(game, graphics);
+  var ground = new Ground(game);
 
   // Chicken
   chick = new Chicken(1, 100, 200, game);
@@ -41,10 +51,19 @@ function create() {
 }
 
 function update() {
+  // Update windup meter
+  windupMeter.fillTo(man.windupPercentage());
 
-  // man stuff
+  // Probably want to make this a call to a move function
+  if (cursors.left.isDown) {
+    man.move(LEFT);
+  } else if (cursors.right.isDown) {
+    man.move(RIGHT);
+  }
+
+  // Update man
   man.update(chick.eggs.children);
 
-  // chick stuff
+  // Update chick
   chick.update(man.foods.children, GROUND_LEVEL);
 }
