@@ -88,7 +88,6 @@ Chicken.prototype.initializeSprite = function(x, y, index){
   this.body.position.y = y;
   this.body.body.setSize(32, 32, 500, 16);
   this.body.anchor.setTo(0.5, 0.5);
-  console.log(this.sprite_index, this.body.position)
 }
 
 Chicken.prototype.startWander = function(time) {
@@ -97,23 +96,27 @@ Chicken.prototype.startWander = function(time) {
 
 // lays an egg
 Chicken.prototype.layEgg = function() {
+
   if (this.girth <= 1) {
     return
   }
 
   // prevents too many egg layings in a short amount of time
   if (this.game.time.now > this.eggTime) {
-    // move
-    this.tweenHeight(-70, 1)
-      // lose weight
-    this.loseWeight()
 
-    // handle eggs
-    var egg = this.eggs.getFirstExists(false);
-    if (egg) {
-      egg.reset(this.body.position.x, this.body.position.y);
-      egg.body.velocity.y = 400;
-      this.eggTime = this.game.time.now + 500;
+    var lost = this.loseWeight();
+    console.log("=+++++", lost)
+    // lose weight
+    if(lost){
+      // rise
+      this.tweenHeight(-70, 1)
+      // handle eggs
+      var egg = this.eggs.getFirstExists(false);
+      if (egg) {
+        egg.reset(this.body.position.x, this.body.position.y);
+        egg.body.velocity.y = 400;
+        this.eggTime = this.game.time.now + 500;
+      }
     }
   }
 }
@@ -157,24 +160,23 @@ Chicken.prototype.update = function(avoidMes /* array of things to avoid */ , gr
     // if(distanceBetween(this.body.position.x, this.body.position.y,
     //   this.target.player.position.x, this.target.player.position.y) < 200)
     var r = getRandomArbitrary(1, 31);
-    console.log(r)
     if(r > 29){
       this.layEgg();
     }
 
     if (avoidMes) {
 
-      var coordinates = {};
+      // var coordinates = {};
       // avoids
-      for (var i = 0; i < avoidMes.length; i++) {
-        coordinates = boundingBoxCollision(
-          avoidMes[i].x, avoidMes[i].y,
-          this.body.position.x, this.body.position.y, 500)
-        if (coordinates) {
-          // console.log("AVOID!!!")
-          this.avoidObstacle(coordinates.x, coordinates.y)
-        }
-      }
+      // for (var i = 0; i < avoidMes.length; i++) {
+      //   coordinates = boundingBoxCollision(
+      //     avoidMes[i].x, avoidMes[i].y,
+      //     this.body.position.x, this.body.position.y, 500)
+      //   if (coordinates) {
+      //     // console.log("AVOID!!!")
+      //     this.avoidObstacle(coordinates.x, coordinates.y)
+      //   }
+      // }
 
       // dies
       for (var i = 0; i < avoidMes.length; i++) {
@@ -230,12 +232,7 @@ Chicken.prototype.moveY = function(y) {
 
 // set the direction of flight
 Chicken.prototype.changeDirection = function(dir) {
-  if (dir < 0) {
-    dir = -1
-  } else {
-    dir = 1
-  }
-  this.direction = dir
+  this.direction = (dir < 0) ? -1 : 1
 }
 
 // fatten chicken
@@ -243,54 +240,38 @@ Chicken.prototype.fatten = function() {
 
     // in time window?
     if (this.game.time.now > this.fatTime) {
-
       // increment girths
-      this.girth++;
-      if (this.girth > 100) {
-        this.girth = 100
-      } else if (this.girth < 1) {
-        this.girth = 1
-      }
-
-      this.sprite_index++;
-      if(this.sprite_index > (this.sprites.length - 1)){
-        this.sprite_index = (this.sprites.length - 1);
-      }
-      // this.body = this.sprites[this.sprite_index]
+      this.girth = (this.girth + 1) < 1 ? 1 : (this.girth + 1);
+      this.sprite_index = ((this.sprite_index + 1) < 0) ? 0 : (this.sprite_index + 1);
       this.initializeSprite(this.body.position.x, this.body.position.y, this.sprite_index);
-
       // move
       this.tweenHeight(70, 1)
         // scale
       this.calcSize();
-      this.fatTime = this.game.time.now + 1000;
+      this.fatTime = this.game.time.now + 1500;
     }
   }
   // lose some weight
 Chicken.prototype.loseWeight = function() {
-
+  var inced = false;
   // in time window?
   if (this.game.time.now > this.fatTime) {
-
+    inced = true;
     // increment girths
     this.girth--;
-    if (this.girth > 10) {
-      this.girth = 10
-    } else if (this.girth < 1) {
-      this.girth = 1
+    if(this.girth < 1){
+      inced = false;
+      this.girth = 1;
     }
 
-    this.sprite_index--;
-    if(this.sprite_index < 0){
-      this.sprite_index = 0;
-    }
-    // this.body = this.sprites[this.sprite_index]
+    this.sprite_index = ((this.sprite_index - 1) < 0) ? 0 : (this.sprite_index - 1);
     this.initializeSprite(this.body.position.x, this.body.position.y, this.sprite_index);
-
     // scale
     this.calcSize();
     this.fatTime = this.game.time.now + 2000;
+    return inced
   }
+  return inced
 }
 
 // recalculate size of chicken
