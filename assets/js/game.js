@@ -52,8 +52,6 @@ function create() {
 }
 
 function update() {
-  man.player.body.velocity.setTo(0, 0);
-
   // Update windup meter
   windupMeter.fillTo(man.windupPercentage());
 
@@ -63,8 +61,10 @@ function update() {
   } else if (cursors.right.isDown) {
     man.move(RIGHT);
   }
+
+  // Update man
   man.update(chick.eggs.children);
 
-  // chick stuff
+  // Update chick
   chick.update(man.foods.children, GROUND_LEVEL);
 }
