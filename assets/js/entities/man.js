@@ -63,6 +63,7 @@ Man.prototype.drawHealthPool = function () {
 		font: 'normal 15pt Indie Flower',
 		fill: '#59cfa8'
 	});
+  console.log(this.healthText.position)
 };
 
 // Move the player using a direction and velocity
