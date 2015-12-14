@@ -8,9 +8,12 @@ var GROUND_LEVEL;
 var LEFT = 'left';
 var RIGHT = 'right';
 
-function preload() {  
+function preload() {
   game.load.spritesheet('sky', 'assets/images/sky.png', 100, 100);
-  game.load.spritesheet('chicky', 'assets/images/original_pixel_turkey_scaled_4.png', 256, 256, 5);
+  game.load.spritesheet('chicky_1', 'assets/images/original_pixel_turkey_scaled_1.png', 256, 256, 5);
+  game.load.spritesheet('chicky_2', 'assets/images/original_pixel_turkey_scaled_2.png', 256, 256, 5);
+  game.load.spritesheet('chicky_3', 'assets/images/original_pixel_turkey_scaled_3.png', 256, 256, 5);
+  game.load.spritesheet('chicky_4', 'assets/images/original_pixel_turkey_scaled_4.png', 256, 256, 5);
   game.load.spritesheet('man', 'assets/images/man.png', 80, 80);
   game.load.spritesheet('grass', 'assets/images/grass.png', 100, 75);
 }

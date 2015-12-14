@@ -12,7 +12,7 @@ Chicken = function(index, x, y, game) {
   //   game.add.sprite(100, 100, 'chicky_4')
   // ];
 
-  this.body = game.add.sprite(32, 32, 'chicky');
+  this.body = game.add.sprite(32, 32, 'chicky_1');
   this.body.animations.add('flap');
   this.body.animations.play('flap', 10, true);
 
