@@ -22,7 +22,6 @@ function create() {
   // Capture mouse events
   game.input.mouse.capture = true;
 
-  console.log(game.scale.height);
   // Windup meter
   windupMeter = new WindupMeter(game, 270, game.scale.height - 85, {
     width: 100,
