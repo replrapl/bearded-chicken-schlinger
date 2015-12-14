@@ -21,7 +21,7 @@ Man = function (game, x, y) {
 
   for(var i = 0 ; i < this.foods.children.length ; i++){
     this.foods.children[i].animations.add('corn_schling');
-    this.foods.children[i].animations.play('corn_schling', 30, true);
+    this.foods.children[i].animations.play('corn_schling', 25, true);
     this.foods.children[i].scale.setTo(0.2, 0.2)
   }
 

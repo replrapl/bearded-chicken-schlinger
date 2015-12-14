@@ -87,7 +87,7 @@ Chicken.prototype.initializeSprite = function(x, y, index){
   this.body = this.sprites[index]; // game.add.sprite(32, 32, 'chicky_1');
   this.body.visible = true;
   this.body.animations.add('flap');
-  this.body.animations.play('flap', 10, true);
+  this.body.animations.play('flap', (index + 1) * 10, true);
 
   this.game.physics.enable(this.body, Phaser.Physics.ARCADE);
   this.body.position.x = x;
