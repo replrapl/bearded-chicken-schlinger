@@ -27,6 +27,7 @@ var Sky = function(game, x, y, params) {
 
       // Draw initial box
       var box = game.add.graphics(0, 0);
+      box.checkWorldBounds = false;
       box.position.setTo(xOffset, yOffset);
       box.beginFill(this.colors[getRandomArbitrary(0, 3)], this.fillAlpha);
       box.lineStyle(1, this.colors[getRandomArbitrary(0, 3)], this.alpha)

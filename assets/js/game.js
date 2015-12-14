@@ -1,4 +1,4 @@
-var game = new Phaser.Game('100', '100', Phaser.AUTO, '', {
+var game = new Phaser.Game('100', '100', Phaser.WEBGL, '', {
   preload: preload,
   create: create,
   update: update
