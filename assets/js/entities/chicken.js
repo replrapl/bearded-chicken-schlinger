@@ -206,7 +206,7 @@ Chicken.prototype.update = function(avoidMes /* array of things to avoid */ , gr
     }
 
     if (this.body.position.y > ground_level) {
-      this.slaughter(this.body.position.x, this.body.position.y - 50)
+      this.slaughter(this.body.position.x, this.body.position.y - 80)
     }
 
     {
