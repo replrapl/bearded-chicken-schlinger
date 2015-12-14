@@ -105,7 +105,6 @@ Chicken.prototype.layEgg = function() {
   if (this.game.time.now > this.eggTime) {
 
     var lost = this.loseWeight();
-    console.log("=+++++", lost)
     // lose weight
     if(lost){
       // rise
@@ -157,8 +156,6 @@ Chicken.prototype.update = function(avoidMes /* array of things to avoid */ , gr
 
     this.calcSize()
 
-    // if(distanceBetween(this.body.position.x, this.body.position.y,
-    //   this.target.player.position.x, this.target.player.position.y) < 200)
     var r = getRandomArbitrary(1, 31);
     if(r > 29){
       this.layEgg();
@@ -238,37 +235,42 @@ Chicken.prototype.changeDirection = function(dir) {
 // fatten chicken
 Chicken.prototype.fatten = function() {
 
-    // in time window?
-    if (this.game.time.now > this.fatTime) {
-      // increment girths
-      this.girth = (this.girth + 1) < 1 ? 1 : (this.girth + 1);
-      this.sprite_index = ((this.sprite_index + 1) < 0) ? 0 : (this.sprite_index + 1);
-      this.initializeSprite(this.body.position.x, this.body.position.y, this.sprite_index);
-      // move
-      this.tweenHeight(70, 1)
-        // scale
-      this.calcSize();
-      this.fatTime = this.game.time.now + 1500;
-    }
+  // in time window?
+  if (this.game.time.now > this.fatTime) {
+    // increment girths
+    this.girth =  ((this.girth + 1) > (this.sprites.length - 1)) ?
+      (this.sprites.length - 1) : (this.sprite_index + 1);
+    this.sprite_index = ((this.sprite_index + 1) > (this.sprites.length - 1)) ?
+      (this.sprites.length - 1) : (this.sprite_index + 1);
+    this.initializeSprite(this.body.position.x, this.body.position.y, this.sprite_index);
+    // move
+    this.tweenHeight(70, 1)
+      // scale
+    this.calcSize();
+    this.fatTime = this.game.time.now + 1750;
   }
-  // lose some weight
+}
+
+// lose some weight
 Chicken.prototype.loseWeight = function() {
   var inced = false;
   // in time window?
   if (this.game.time.now > this.fatTime) {
     inced = true;
-    // increment girths
-    this.girth--;
-    if(this.girth < 1){
-      inced = false;
-      this.girth = 1;
-    }
+    // if(this.girth < this.sprites.length - 1){
+      // increment girths
+      this.girth--;
+      if(this.girth < 1){
+        inced = false;
+        this.girth = 1;
+      }
 
-    this.sprite_index = ((this.sprite_index - 1) < 0) ? 0 : (this.sprite_index - 1);
-    this.initializeSprite(this.body.position.x, this.body.position.y, this.sprite_index);
+      this.sprite_index = ((this.sprite_index - 1) < 0) ? 0 : (this.sprite_index - 1);
+      this.initializeSprite(this.body.position.x, this.body.position.y, this.sprite_index);
+    // }
     // scale
     this.calcSize();
-    this.fatTime = this.game.time.now + 2000;
+    this.fatTime = this.game.time.now + 750;
     return inced
   }
   return inced

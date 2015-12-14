@@ -57,10 +57,10 @@ function create() {
   man.drawHealthPool();
 
   // Chicken
-  chick = new Chicken(1, 100, 200, game);
+  chick = new Chicken(1, 100, 100, game);
   chick.startWander(20000)
   chick.target = man;
-  
+
   // Initialize cursor keys
   cursors = game.input.keyboard.createCursorKeys();
 }
