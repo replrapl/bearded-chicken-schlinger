@@ -37,6 +37,21 @@ function create() {
     }
   });
 
+  // Man
+  man = new Man(game, 100, game.scale.height - 190);
+  man.drawHealthPool();
+
+  // Ground
+  ground = new Ground(game, 0, game.scale.height - 100, {
+    size: 1,
+    colors: [0x308b4f, 0xb49066, 0xb9775e, 0xe9d3a1, 0xafcf6c],
+    alpha: 1,
+    fill: {
+      color: 0x1c1b29,
+      alpha: 1
+    }
+  });
+
   // Windup meter
   windupMeter = new WindupMeter(game, 270, game.scale.height - 85, {
     width: 100,
@@ -49,17 +64,10 @@ function create() {
     }
   });
 
-  // Ground
-  var ground = new Ground(game);
-
   // Chicken
   chick = new Chicken(1, 100, 200, game);
   chick.startWander(20000)
     // chick.tweenHeight(150, 1);
-
-  // Man
-  man = new Man(game, 100, game.scale.height - 260);
-  man.drawHealthPool();
 
   // Initialize cursor keys
   cursors = game.input.keyboard.createCursorKeys();
