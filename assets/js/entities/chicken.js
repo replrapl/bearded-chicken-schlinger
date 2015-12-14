@@ -41,13 +41,19 @@ Chicken = function(index, x, y, game) {
   this.eggs = this.game.add.group();
   this.eggs.enableBody = true;
   this.eggs.physicsBodyType = Phaser.Physics.ARCADE;
-  this.eggs.createMultiple(5, 'bullet');
+  this.eggs.createMultiple(5, 'egg', 0, false);
+  for(var i = 0 ; i < this.eggs.children.length ; i++){
+    this.eggs.children[i].animations.add('egg_fall');
+    this.eggs.children[i].animations.play('egg_fall', 10, true);
+    this.eggs.children[i].scale.setTo(0.2, 0.2)
+  }
+
   this.eggs.setAll('anchor.x', 0.5);
-  this.eggs.setAll('anchor.y', 0.5);
+  this.eggs.setAll('anchor.y', 1.5);
   this.eggs.setAll('outOfBoundsKill', true);
   this.eggs.setAll('checkWorldBounds', true);
   // button
-  this.eggButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+  // this.eggButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
   // time window
   this.eggTime = 0;
 
@@ -113,7 +119,7 @@ Chicken.prototype.layEgg = function() {
       var egg = this.eggs.getFirstExists(false);
       if (egg) {
         egg.reset(this.body.position.x, this.body.position.y);
-        egg.body.velocity.y = 400;
+        egg.body.velocity.y = 100;
         this.eggTime = this.game.time.now + 500;
       }
     }
