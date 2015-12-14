@@ -14,6 +14,7 @@ function preload() {
   game.load.spritesheet('chicky_2', 'assets/images/original_pixel_turkey_scaled_2.png', 256, 256, 5);
   game.load.spritesheet('chicky_3', 'assets/images/original_pixel_turkey_scaled_3.png', 256, 256, 5);
   game.load.spritesheet('chicky_4', 'assets/images/original_pixel_turkey_scaled_4.png', 256, 256, 5);
+  game.load.spritesheet('cooked', 'assets/images/original_pixel_turkey_scaled_cooked.png', 256, 256, 5);
   game.load.spritesheet('man', 'assets/images/man.png', 80, 80);
   game.load.spritesheet('grass', 'assets/images/grass.png', 100, 75);
   game.load.spritesheet('egg', 'assets/images/egg_scaled.png', 256, 256, 4);
@@ -24,7 +25,7 @@ function preload() {
 function create() {
 
   // Initialize constants that rely on the game being initialized.
-  GROUND_LEVEL = game.scale.height - 260;
+  GROUND_LEVEL = game.scale.height - 100;
 
   // Capture mouse events
   game.input.mouse.capture = true;

@@ -4,6 +4,8 @@ Chicken = function(index, x, y, game) {
   this.girth = 1;
   this.direction = 1;
 
+  this.deadSprite = game.add.sprite(100, 100, 'cooked');
+  this.deadSprite.visible = false;
   this.sprites = [
     game.add.sprite(100, 100, 'chicky_1'),
     game.add.sprite(100, 100, 'chicky_2'),
@@ -84,7 +86,7 @@ Chicken.prototype.initializeSprite = function(x, y, index){
     this.body.visible = false
   }
 
-  this.body = this.sprites[index]; // game.add.sprite(32, 32, 'chicky_1');
+  this.body = this.sprites[index];
   this.body.visible = true;
   this.body.animations.add('flap');
   this.body.animations.play('flap', (index + 1) * 10, true);
@@ -203,9 +205,9 @@ Chicken.prototype.update = function(avoidMes /* array of things to avoid */ , gr
       }
     }
 
-    // if (this.body.position.y > ground_level) {
-    //   this.slaughter()
-    // }
+    if (this.body.position.y > ground_level) {
+      this.slaughter(this.body.position.x, this.body.position.y - 50)
+    }
 
     {
       chick.moveX(1)
@@ -214,9 +216,24 @@ Chicken.prototype.update = function(avoidMes /* array of things to avoid */ , gr
   }
 };
 
-Chicken.prototype.slaughter = function() {
+Chicken.prototype.slaughter = function(x, y) {
   console.log("DIE!!!")
   this.dead = true;
+  if(this.body){
+    this.body.visible = false
+  }
+
+  this.body = this.deadSprite;
+  this.body.visible = true;
+  this.body.animations.add('steam');
+  this.body.animations.play('steam', 5, true);
+
+  this.game.physics.enable(this.body, Phaser.Physics.ARCADE);
+  this.body.position.x = x;
+  this.body.position.y = y;
+  this.body.body.setSize(32, 32, 500, 16);
+  this.body.anchor.setTo(0.5, 0.5);
+  this.body.scale.setTo(0.5, 0.5);
 };
 
 // start a vertical tween
