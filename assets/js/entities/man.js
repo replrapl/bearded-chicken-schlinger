@@ -17,7 +17,14 @@ Man = function (game, x, y) {
 	this.foods = this.game.add.group();
 	this.foods.enableBody = true;
 	this.foods.physicsBodyType = Phaser.Physics.ARCADE;
-	this.foods.createMultiple(5, 'bullet');
+	this.foods.createMultiple(5, 'corn');
+
+  for(var i = 0 ; i < this.foods.children.length ; i++){
+    this.foods.children[i].animations.add('corn_schling');
+    this.foods.children[i].animations.play('corn_schling', 30, true);
+    this.foods.children[i].scale.setTo(0.2, 0.2)
+  }
+
 	this.foods.setAll('anchor.x', 0.5);
 	this.foods.setAll('anchor.y', 0);
 	this.foods.setAll('outOfBoundsKill', true);

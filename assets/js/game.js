@@ -17,6 +17,7 @@ function preload() {
   game.load.spritesheet('man', 'assets/images/man.png', 80, 80);
   game.load.spritesheet('grass', 'assets/images/grass.png', 100, 75);
   game.load.spritesheet('egg', 'assets/images/egg_scaled.png', 256, 256, 4);
+  game.load.spritesheet('corn', 'assets/images/corn_scaled.png', 256, 256, 4);
   game.load.audio('schling', 'assets/sounds/schling.wav');
 }
 
