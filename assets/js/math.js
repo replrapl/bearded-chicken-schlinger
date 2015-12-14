@@ -17,4 +17,8 @@ function boundingBoxCollision(x_1, y_1, x_2, y_2, distance){
     return {x: h, y: v}
   }
   return
-}
+};
+
+function getRandomArbitrary(min, max) {
+  return Math.floor(Math.random() * (max - min) + min);
+};

@@ -8,7 +8,8 @@ var GROUND_LEVEL;
 var LEFT = 'left';
 var RIGHT = 'right';
 
-function preload() {
+function preload() {  
+  game.load.spritesheet('sky', 'assets/images/sky.png', 100, 100);
   game.load.spritesheet('chicky', 'assets/images/original_pixel_turkey_scaled_4.png', 256, 256, 5);
   game.load.spritesheet('man', 'assets/images/man.png', 80, 80);
   game.load.spritesheet('grass', 'assets/images/grass.png', 100, 75);
@@ -30,6 +31,17 @@ function create() {
     alpha: 1,
     fill: {
       color: 0x73af53,
+      alpha: 1
+    }
+  });
+
+  // Sky
+  sky = new Sky(game, 0, 0, {
+    width: 50,
+    colors: [0x0c160a, 0x1f1d2b, 0x0e1b0a],
+    alpha: 1,
+    fill: {
+      color: 0x1c1b29,
       alpha: 1
     }
   });
