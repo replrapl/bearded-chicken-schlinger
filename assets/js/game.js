@@ -1,4 +1,4 @@
-var game = new Phaser.Game('100', '100', Phaser.AUTO, '', {
+var game = new Phaser.Game('100', '100', Phaser.WEBGL, '', {
   preload: preload,
   create: create,
   update: update
@@ -26,6 +26,17 @@ function create() {
   // Capture mouse events
   game.input.mouse.capture = true;
 
+  // Sky
+  sky = new Sky(game, 0, 0, {
+    size: 50,
+    colors: [0x0c160a, 0x1f1d2b, 0x0e1b0a],
+    alpha: 1,
+    fill: {
+      color: 0x1c1b29,
+      alpha: 1
+    }
+  });
+
   // Windup meter
   windupMeter = new WindupMeter(game, 270, game.scale.height - 85, {
     width: 100,
@@ -34,17 +45,6 @@ function create() {
     alpha: 1,
     fill: {
       color: 0x73af53,
-      alpha: 1
-    }
-  });
-
-  // Sky
-  sky = new Sky(game, 0, 0, {
-    width: 50,
-    colors: [0x0c160a, 0x1f1d2b, 0x0e1b0a],
-    alpha: 1,
-    fill: {
-      color: 0x1c1b29,
       alpha: 1
     }
   });
