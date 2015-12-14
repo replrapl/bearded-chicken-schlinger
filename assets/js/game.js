@@ -9,7 +9,7 @@ var LEFT = 'left';
 var RIGHT = 'right';
 
 function preload() {
-  game.load.spritesheet('sky', 'assets/images/sky.png', 100, 100);
+  // game.load.spritesheet('sky', 'assets/images/sky.png', 100, 100);
   game.load.spritesheet('chicky_1', 'assets/images/original_pixel_turkey_scaled_1.png', 256, 256, 5);
   game.load.spritesheet('chicky_2', 'assets/images/original_pixel_turkey_scaled_2.png', 256, 256, 5);
   game.load.spritesheet('chicky_3', 'assets/images/original_pixel_turkey_scaled_3.png', 256, 256, 5);

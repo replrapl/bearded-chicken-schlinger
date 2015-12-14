@@ -4,24 +4,18 @@ Chicken = function(index, x, y, game) {
   this.girth = 1;
   this.direction = 1;
 
-  // this.sprites = [
-  //   game.add.sprite(100, 100, 'chicky_1'),
-  //   game.add.sprite(100, 100, 'chicky_2'),
-  //   game.add.sprite(100, 100, 'chicky_3'),
-  //   game.add.sprite(100, 100, 'chicky_4'),
-  //   game.add.sprite(100, 100, 'chicky_4')
-  // ];
-
-  this.body = game.add.sprite(32, 32, 'chicky_1');
-  this.body.animations.add('flap');
-  this.body.animations.play('flap', 10, true);
-
-  this.game.physics.enable(this.body, Phaser.Physics.ARCADE);
-  this.body.position.x = x;
-  this.body.position.y = y;
-  this.body.body.setSize(32, 32, 500, 16);
-  this.body.anchor.setTo(0.5, 0.5);
-  // this.velocityX = 0;
+  this.sprites = [
+    game.add.sprite(100, 100, 'chicky_1'),
+    game.add.sprite(100, 100, 'chicky_2'),
+    game.add.sprite(100, 100, 'chicky_3'),
+    game.add.sprite(100, 100, 'chicky_4')
+  ];
+  for(var i = 0 ; i < this.sprites.length ; i ++){
+    this.sprites[i].visible = false
+  }
+  this.sprite_index = 0;
+  this.initializeSprite(x, y, this.sprite_index);
+  
   this.velocityY = 0;
   this.stepSize = 0;
   this.going = true;
@@ -74,6 +68,25 @@ Chicken = function(index, x, y, game) {
   this.fattenButton = this.game.input.keyboard.addKey(Phaser.Keyboard.CONTROL);
   // time window
   this.fatTime = 0;
+}
+
+Chicken.prototype.initializeSprite = function(x, y, index){
+
+  if(this.body){
+    this.body.visible = false
+  }
+
+  this.body = this.sprites[index]; // game.add.sprite(32, 32, 'chicky_1');
+  this.body.visible = true;
+  this.body.animations.add('flap');
+  this.body.animations.play('flap', 10, true);
+
+  this.game.physics.enable(this.body, Phaser.Physics.ARCADE);
+  this.body.position.x = x;
+  this.body.position.y = y;
+  this.body.body.setSize(32, 32, 500, 16);
+  this.body.anchor.setTo(0.5, 0.5);
+  console.log(this.sprite_index, this.body.position)
 }
 
 Chicken.prototype.startWander = function(time) {
@@ -175,28 +188,14 @@ Chicken.prototype.update = function(avoidMes /* array of things to avoid */ , gr
       }
     }
 
-    if (this.body.position.y > ground_level) {
-      this.slaughter()
-    }
+    // if (this.body.position.y > ground_level) {
+    //   this.slaughter()
+    // }
 
     {
       chick.moveX(1)
       chick.moveY((Math.round(Math.random() - 1) + 0.5) * Math.floor((Math.random() * 2) + 1))
     }
-    /*// eggs
-    if (this.eggButton.isDown) {
-      this.layEgg();
-    }
-
-    // poos
-    if (this.pooButton.isDown) {
-      this.poo();
-    }
-
-    // fats
-    if (this.fattenButton.isDown) {
-      this.fatten();
-    }*/
   }
 };
 
@@ -243,8 +242,15 @@ Chicken.prototype.fatten = function() {
         this.girth = 1
       }
 
+      this.sprite_index++;
+      if(this.sprite_index > (this.sprites.length - 1)){
+        this.sprite_index = (this.sprites.length - 1);
+      }
+      // this.body = this.sprites[this.sprite_index]
+      this.initializeSprite(this.body.position.x, this.body.position.y, this.sprite_index);
+
       // move
-      this.tweenHeight(200, 1)
+      this.tweenHeight(70, 1)
         // scale
       this.calcSize();
       this.fatTime = this.game.time.now + 2000;
@@ -253,23 +259,24 @@ Chicken.prototype.fatten = function() {
   // lose some weight
 Chicken.prototype.loseWeight = function() {
 
-    // in time window?
-    if (this.game.time.now > this.fatTime) {
+  // in time window?
+  if (this.game.time.now > this.fatTime) {
 
-      // increment girths
-      this.girth--;
-      if (this.girth > 10) {
-        this.girth = 10
-      } else if (this.girth < 1) {
-        this.girth = 1
-      }
-
-      // scale
-      this.calcSize();
-      this.fatTime = this.game.time.now + 2000;
+    // increment girths
+    this.girth--;
+    if (this.girth > 10) {
+      this.girth = 10
+    } else if (this.girth < 1) {
+      this.girth = 1
     }
+
+    // scale
+    this.calcSize();
+    this.fatTime = this.game.time.now + 2000;
   }
-  // recalculate size of chicken
+}
+
+// recalculate size of chicken
 Chicken.prototype.calcSize = function() {
   this.collisionRadius = this.collisionRadius + this.girth * 50
   this.body.scale.setTo(-this.direction * (0.4 + this.girth * 0.15), 0.4 + this.girth * 0.15)
