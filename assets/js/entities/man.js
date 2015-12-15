@@ -77,9 +77,7 @@ Man.prototype.update = function (avoidMes) {
 		// dies
 		for (var i = 0; i < avoidMes.length; i++) {
 			if (boundingBoxCollision(avoidMes[i].x, avoidMes[i].y, this.player.position.x, this.player.position.y, 50)) {
-				if(!this.dead) {
-					this.harm(this.eggDamage);
-				}
+				this.harm(this.eggDamage);
 				avoidMes[i].kill();
 				break;
 			}
