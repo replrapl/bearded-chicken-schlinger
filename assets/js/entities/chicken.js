@@ -30,15 +30,6 @@ Chicken = function(index, x, y, game) {
   this.collisionRadius = 50;
   this.avoidRadius = 100;
 
-  this.loop = function() {
-    // this.fatten(0.5)
-    if (this.direction > 0) {
-      this.changeDirection(-1)
-    } else {
-      this.changeDirection(1)
-    }
-  }
-
   //  Our bullet group
   this.eggs = this.game.add.group();
   this.eggs.enableBody = true;
@@ -59,7 +50,6 @@ Chicken = function(index, x, y, game) {
   // this.eggButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
   // time window
   this.eggTime = 0;
-
 
   //  Our bullet group
   this.poos = this.game.add.group();
@@ -105,7 +95,6 @@ Chicken.prototype.initializeSprite = function(x, y, index){
 }
 
 Chicken.prototype.startWander = function() {
-  // this.loop = setInterval(this.loop.bind(this), time)
   this.wandering = true;
 }
 
@@ -187,8 +176,11 @@ Chicken.prototype.update = function(avoidMes /* array of things to avoid */ , gr
       for (var i = 0; i < avoidMes.length; i++) {
         if(avoidMes[i].alive){
           if (boundingBoxCollision(
-              avoidMes[i].x, avoidMes[i].y,
-              this.body.position.x, this.body.position.y, 50)) {
+            avoidMes[i].x,
+            avoidMes[i].y,
+            this.body.position.x,
+            this.body.position.y,
+            50)) {
             if(!hit) {
               hit = true;
             }
@@ -229,15 +221,16 @@ Chicken.prototype.update = function(avoidMes /* array of things to avoid */ , gr
     }
 
     if(this.wandering){
-      this.moveX(1)
+      this.moveX(1);
       if(this.body.position.x > this.game.scale.width * 0.8){
-        this.changeDirection(-1)
+        this.changeDirection(-1);
       }
       if(this.body.position.x < this.game.scale.width * 0.2){
-        this.changeDirection(1)
+        this.changeDirection(1);
       }
       this.moveY((Math.round(Math.random() - 1) + 0.5) * Math.floor((Math.random() * 2) + 1))
     }
+  }
 };
 
 Chicken.prototype.slaughter = function(x, y) {
