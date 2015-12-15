@@ -15,7 +15,7 @@ function preload() {
   game.load.spritesheet('chicky_3', 'assets/images/original_pixel_turkey_scaled_3.png', 256, 256, 5);
   game.load.spritesheet('chicky_4', 'assets/images/original_pixel_turkey_scaled_4.png', 256, 256, 5);
   game.load.spritesheet('cooked', 'assets/images/original_pixel_turkey_scaled_cooked.png', 256, 256, 5);
-  game.load.spritesheet('man', 'assets/images/man.png', 80, 80);
+  game.load.spritesheet('man', 'assets/images/bearded_walk.png', 200, 200, 7);
   game.load.spritesheet('grass', 'assets/images/grass.png', 100, 75);
   game.load.spritesheet('egg', 'assets/images/egg_scaled.png', 256, 256, 4);
   game.load.spritesheet('corn', 'assets/images/corn_scaled.png', 256, 256, 4);
@@ -42,7 +42,7 @@ function create() {
   });
 
   // Man
-  man = new Man(game, 100, game.scale.height - 190);
+  man = new Man(game, 100, game.scale.height - 170);
   man.drawHealthPool();
 
   // Ground

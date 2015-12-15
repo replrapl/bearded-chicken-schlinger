@@ -2,7 +2,10 @@ Man = function (game, x, y) {
 	this.game = game;
 
 	this.player = game.add.sprite(80, 80, 'man');
-	this.player.anchor.setTo(0, 0);
+  this.player.scale.setTo(0.8, 0.8);
+	this.player.anchor.setTo(0, 0.5);
+  this.player.animations.add('walk', [0,1,2,3], 20, false);
+  this.player.animations.add('schling', [4,5,6], 5, false);
 	game.physics.enable(this.player, Phaser.Physics.ARCADE);
 
 	// Sprite should collide with the world's bounds and bounce back into it.
@@ -111,8 +114,10 @@ Man.prototype.update = function (avoidMes) {
 
   if(this.left.isDown){
     man.move(LEFT);
+    this.player.animations.play('walk');
   } else if(this.right.isDown){
     man.move(RIGHT);
+    this.player.animations.play('walk');
   }
 
 	// fats
@@ -135,6 +140,8 @@ Man.prototype.schling = function (velocity) {
 		// handle eggs
 		var food = this.foods.getFirstExists(false);
 		if (food) {
+
+      this.player.animations.play('schling');
 			food.reset(this.player.body.position.x, this.player.body.position.y);
 
 			// Play schling sound
