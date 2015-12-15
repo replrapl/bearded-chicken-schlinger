@@ -55,15 +55,11 @@ Man = function (game, x, y) {
 
 Man.prototype.harm = function (amount) {
 	if (this.dead === false) {
-		// prevents too many harms in a short amount of time
-		if (this.game.time.now > this.harmTime) {
+		if(this.health - amount <= 0) {
+			this.health = 0;
+			this.dead = true;
+		} else {
 			this.health -= amount;
-
-			if (this.health === 0) {
-				this.dead = true;
-			}
-
-			this.harmTime = this.game.time.now + 2000;
 		}
 	}
 };

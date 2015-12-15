@@ -241,7 +241,6 @@ Chicken.prototype.update = function(avoidMes /* array of things to avoid */ , gr
 };
 
 Chicken.prototype.slaughter = function(x, y) {
-  console.log("DIE!!!")
   this.dead = true;
   if(this.body){
     this.body.visible = false
