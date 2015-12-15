@@ -83,7 +83,7 @@ function create() {
 
   // Chicken
   chick = new Chicken(1, 100, 100, game);
-  chick.startWander(10000)
+  chick.startWander()
   chick.target = man;
 
   // Initialize cursor keys
