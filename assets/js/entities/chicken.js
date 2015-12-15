@@ -80,6 +80,8 @@ Chicken = function(index, x, y, game) {
   // time window
   this.fatTime = 0;
 
+  this.wandering = false;
+
   // Sounds
   this.hitSound = game.add.audio('hit');
 }
@@ -102,8 +104,9 @@ Chicken.prototype.initializeSprite = function(x, y, index){
   this.body.anchor.setTo(0.5, 0.5);
 }
 
-Chicken.prototype.startWander = function(time) {
-  this.loop = setInterval(this.loop.bind(this), time)
+Chicken.prototype.startWander = function() {
+  // this.loop = setInterval(this.loop.bind(this), time)
+  this.wandering = true;
 }
 
 // lays an egg
@@ -219,19 +222,22 @@ Chicken.prototype.update = function(avoidMes /* array of things to avoid */ , gr
       if(this.eggs.children[i].position.y > ground_level - 10){
         this.eggs.children[i].animations.play('egg_break')
       }
-
       if(this.eggs.children[i].position.y > ground_level + 20){
-        console.log('dklfdsal;afdkl;')
         this.eggs.children[i].body.velocity.y = 0;
         this.eggs.children[i].kill();
       }
     }
 
-    {
-      chick.moveX(1)
-      chick.moveY((Math.round(Math.random() - 1) + 0.5) * Math.floor((Math.random() * 2) + 1))
+    if(this.wandering){
+      this.moveX(1)
+      if(this.body.position.x > this.game.scale.width * 0.8){
+        this.changeDirection(-1)
+      }
+      if(this.body.position.x < this.game.scale.width * 0.2){
+        this.changeDirection(1)
+      }
+      this.moveY((Math.round(Math.random() - 1) + 0.5) * Math.floor((Math.random() * 2) + 1))
     }
-  }
 };
 
 Chicken.prototype.slaughter = function(x, y) {
