@@ -17,7 +17,7 @@ function preload() {
   game.load.spritesheet('cooked', 'assets/images/original_pixel_turkey_scaled_cooked.png', 256, 256, 5);
   game.load.spritesheet('man', 'assets/images/bearded_walk.png', 200, 200, 7);
   game.load.spritesheet('grass', 'assets/images/grass.png', 100, 75);
-  game.load.spritesheet('egg', 'assets/images/egg_scaled.png', 256, 256, 4);
+  game.load.spritesheet('egg', 'assets/images/egg_scaled.png', 256, 256, 7);
   game.load.spritesheet('corn', 'assets/images/corn_scaled.png', 256, 256, 4);
   game.load.audio('schling', 'assets/sounds/schling.wav');
 }
@@ -81,7 +81,7 @@ function create() {
 
   // Chicken
   chick = new Chicken(1, 100, 100, game);
-  chick.startWander(20000)
+  chick.startWander(10000)
   chick.target = man;
 
   // Initialize cursor keys

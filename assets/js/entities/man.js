@@ -80,12 +80,14 @@ Man.prototype.update = function (avoidMes) {
 	if (avoidMes) {
 		// dies
 		for (var i = 0; i < avoidMes.length; i++) {
-			if (boundingBoxCollision(
-					avoidMes[i].x, avoidMes[i].y,
-					this.player.position.x, this.player.position.y, 50)) {
-				this.harm(this.eggDamage);
-				avoidMes[i].kill()
-			}
+      if(avoidMes[i].alive){
+  			if (boundingBoxCollision(
+  					avoidMes[i].x, avoidMes[i].y,
+  					this.player.position.x, this.player.position.y, 50)) {
+  				this.harm(this.eggDamage);
+  				avoidMes[i].kill()
+  			}
+      }
 		}
 	}
 
