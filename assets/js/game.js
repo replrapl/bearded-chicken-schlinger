@@ -43,7 +43,6 @@ function create() {
 
   // Man
   man = new Man(game, 100, game.scale.height - 190);
-  man.drawHealthPool();
 
   // Ground
   ground = new Ground(game, 0, game.scale.height - 100, {
@@ -56,8 +55,20 @@ function create() {
     }
   });
 
+  // Health meter
+  healthMeter = new HealthMeter(game, 100, game.scale.height - 85, {
+    width: 100,
+    height: 20,
+    color: 0xb54167,
+    alpha: 1,
+    fill: {
+      color: 0x73af53,
+      alpha: 1
+    }
+  });
+
   // Windup meter
-  windupMeter = new WindupMeter(game, 270, game.scale.height - 85, {
+  windupMeter = new WindupMeter(game, 300, game.scale.height - 85, {
     width: 100,
     height: 20,
     color: 0xb54167,
@@ -78,6 +89,8 @@ function create() {
 }
 
 function update() {
+  // Update health meter
+  healthMeter.fillTo(man.healthPercentage());
   // Update windup meter
   windupMeter.fillTo(man.windupPercentage());
 

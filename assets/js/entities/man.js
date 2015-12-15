@@ -39,10 +39,12 @@ Man = function (game, x, y) {
 	// Health pool
 	this.dead = false;
 	this.health = 100;
+	this.maxHealth = 100;
 	this.harmButton = this.game.input.keyboard.addKey(Phaser.Keyboard.H);
   this.left = this.game.input.keyboard.addKey(Phaser.Keyboard.A);
   this.right = this.game.input.keyboard.addKey(Phaser.Keyboard.D);
 	this.harmTime = 0;
+	this.eggDamage = 12;
 
 	// Sound Effects
 	this.schlingSound = game.add.audio('schling');
@@ -53,7 +55,6 @@ Man.prototype.harm = function (amount) {
 		// prevents too many harms in a short amount of time
 		if (this.game.time.now > this.harmTime) {
 			this.health -= amount;
-			this.healthText.text = this.health;
 
 			if (this.health === 0) {
 				this.dead = true;
@@ -62,18 +63,6 @@ Man.prototype.harm = function (amount) {
 			this.harmTime = this.game.time.now + 2000;
 		}
 	}
-};
-
-Man.prototype.drawHealthPool = function() {
-  // Display Health Pool
-  this.game.add.text(100, this.game.scale.height - 85, 'Health', {
-    font: 'bold 15pt Indie Flower',
-    fill: '#59cfa8'
-  });
-  this.healthText = this.game.add.text(200, this.game.scale.height - 85, this.health, {
-    font: 'normal 15pt Indie Flower',
-    fill: '#59cfa8'
-  });
 };
 
 // Move the player using a direction and velocity
@@ -91,7 +80,7 @@ Man.prototype.update = function (avoidMes) {
 			if (boundingBoxCollision(
 					avoidMes[i].x, avoidMes[i].y,
 					this.player.position.x, this.player.position.y, 50)) {
-				this.harm(2);
+				this.harm(this.eggDamage);
 				avoidMes[i].kill()
 			}
 		}
@@ -152,6 +141,10 @@ Man.prototype.schling = function (velocity) {
 			this.foodTime = this.game.time.now + 250;
 		}
 	}
+};
+
+Man.prototype.healthPercentage = function() {
+  return this.health / this.maxHealth;
 };
 
 Man.prototype.windupPercentage = function() {
