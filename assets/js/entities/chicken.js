@@ -45,8 +45,9 @@ Chicken = function(index, x, y, game) {
   this.eggs.physicsBodyType = Phaser.Physics.ARCADE;
   this.eggs.createMultiple(5, 'egg', 0, false);
   for(var i = 0 ; i < this.eggs.children.length ; i++){
-    this.eggs.children[i].animations.add('egg_fall');
-    this.eggs.children[i].animations.play('egg_fall', 30, true);
+    this.eggs.children[i].animations.add('egg_fall', [0,1,2,3], 30, true);
+    this.eggs.children[i].animations.add('egg_break', [4,5,6], 10, false);
+    this.eggs.children[i].animations.play('egg_fall');
     this.eggs.children[i].scale.setTo(0.2, 0.2)
   }
 
@@ -125,6 +126,7 @@ Chicken.prototype.layEgg = function() {
       if (egg) {
         egg.reset(this.body.position.x, this.body.position.y);
         egg.body.velocity.y = 100;
+        egg.animations.play('egg_fall');
         this.eggTime = this.game.time.now + 1500;
       }
     }
@@ -211,6 +213,18 @@ Chicken.prototype.update = function(avoidMes /* array of things to avoid */ , gr
 
     if (this.body.position.y > ground_level) {
       this.slaughter(this.body.position.x, this.body.position.y - 80)
+    }
+
+    for(var i = 0 ; i < this.eggs.length ; i++){
+      if(this.eggs.children[i].position.y > ground_level - 10){
+        this.eggs.children[i].animations.play('egg_break')
+      }
+
+      if(this.eggs.children[i].position.y > ground_level + 20){
+        console.log('dklfdsal;afdkl;')
+        this.eggs.children[i].body.velocity.y = 0;
+        this.eggs.children[i].kill();
+      }
     }
 
     {
