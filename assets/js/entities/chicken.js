@@ -125,7 +125,7 @@ Chicken.prototype.layEgg = function() {
       if (egg) {
         egg.reset(this.body.position.x, this.body.position.y);
         egg.body.velocity.y = 100;
-        this.eggTime = this.game.time.now + 500;
+        this.eggTime = this.game.time.now + 1500;
       }
     }
   }
@@ -169,37 +169,27 @@ Chicken.prototype.update = function(avoidMes /* array of things to avoid */ , gr
 
     this.calcSize()
 
-    var r = getRandomArbitrary(1, 31);
-    if(r > 29){
-      this.layEgg();
+    if(!this.tweening){
+      var r = getRandomArbitrary(1, 31);
+      if(r > 10){
+        this.layEgg();
+      }
     }
 
     if (avoidMes) {
 
-      // var coordinates = {};
-      // avoids
-      // for (var i = 0; i < avoidMes.length; i++) {
-      //   coordinates = boundingBoxCollision(
-      //     avoidMes[i].x, avoidMes[i].y,
-      //     this.body.position.x, this.body.position.y, 500)
-      //   if (coordinates) {
-      //     // console.log("AVOID!!!")
-      //     this.avoidObstacle(coordinates.x, coordinates.y)
-      //   }
-      // }
-
       // dies
       for (var i = 0; i < avoidMes.length; i++) {
-        if (boundingBoxCollision(
-            avoidMes[i].x, avoidMes[i].y,
-            this.body.position.x, this.body.position.y, 50)) {
-          // We had a hit
-          if(!hit) {
-            hit = true;
+        if(avoidMes[i].alive){
+          if (boundingBoxCollision(
+              avoidMes[i].x, avoidMes[i].y,
+              this.body.position.x, this.body.position.y, 50)) {
+            if(!hit) {
+              hit = true;
+            }
+            this.fatten();
+            avoidMes[i].kill();
           }
-          // console.log("EAT!!!")
-          this.fatten()
-          avoidMes[i].kill();
         }
       }
     }
@@ -213,6 +203,7 @@ Chicken.prototype.update = function(avoidMes /* array of things to avoid */ , gr
       this.body.position.y += Math.sign(this.velocityY) * this.stepSize;
 
       if (Math.abs(this.velocityY) < 0.25) {
+        this.tweening = false;
         this.velocityY = 0;
         this.stepSize = 0;
       }
@@ -251,6 +242,7 @@ Chicken.prototype.slaughter = function(x, y) {
 
 // start a vertical tween
 Chicken.prototype.tweenHeight = function(y, stepSize) {
+  this.tweening = true;
   this.velocityY = y;
   this.stepSize = stepSize;
 }
@@ -275,7 +267,7 @@ Chicken.prototype.fatten = function() {
   if (this.game.time.now > this.fatTime) {
     // increment girths
     this.girth =  ((this.girth + 1) > (this.sprites.length - 1)) ?
-      (this.sprites.length - 1) : (this.sprite_index + 1);
+      (this.sprites.length - 1) : (this.girth + 1);
     this.sprite_index = ((this.sprite_index + 1) > (this.sprites.length - 1)) ?
       (this.sprites.length - 1) : (this.sprite_index + 1);
     this.initializeSprite(this.body.position.x, this.body.position.y, this.sprite_index);
@@ -283,16 +275,16 @@ Chicken.prototype.fatten = function() {
     this.tweenHeight(70, 1)
       // scale
     this.calcSize();
-    this.fatTime = this.game.time.now + 1750;
+    this.fatTime = this.game.time.now + 500;
   }
 }
 
 // lose some weight
 Chicken.prototype.loseWeight = function() {
-  var inced = false;
+  // var inced = false;
   // in time window?
-  if (this.game.time.now > this.fatTime) {
-    inced = true;
+  // if (this.game.time.now > this.fatTime) {
+    var inced = true;
     // if(this.girth < this.sprites.length - 1){
       // increment girths
       this.girth--;
@@ -306,16 +298,16 @@ Chicken.prototype.loseWeight = function() {
     // }
     // scale
     this.calcSize();
-    this.fatTime = this.game.time.now + 750;
+    // this.fatTime = this.game.time.now + 750;
     return inced
-  }
-  return inced
+  // }
+  // return inced
 }
 
 // recalculate size of chicken
 Chicken.prototype.calcSize = function() {
   this.collisionRadius = this.collisionRadius + this.girth * 50
-  this.body.scale.setTo(-this.direction * (0.4 + this.girth * 0.15), 0.4 + this.girth * 0.15)
+  this.body.scale.setTo(-this.direction * (0.4 + this.girth * 0.1), 0.4 + this.girth * 0.1)
 }
 
 Chicken.prototype.evade = function(foods) {
