@@ -20,6 +20,8 @@ function preload() {
   game.load.spritesheet('egg', 'assets/images/egg_scaled.png', 256, 256, 4);
   game.load.spritesheet('corn', 'assets/images/corn_scaled.png', 256, 256, 4);
   game.load.audio('schling', 'assets/sounds/schling.wav');
+  game.load.audio('hit', 'assets/sounds/hit.wav');
+
 }
 
 function create() {
