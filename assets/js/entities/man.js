@@ -55,15 +55,11 @@ Man = function (game, x, y) {
 
 Man.prototype.harm = function (amount) {
 	if (this.dead === false) {
-		// prevents too many harms in a short amount of time
-		if (this.game.time.now > this.harmTime) {
+		if(this.health - amount <= 0) {
+			this.health = 0;
+			this.dead = true;
+		} else {
 			this.health -= amount;
-
-			if (this.health === 0) {
-				this.dead = true;
-			}
-
-			this.harmTime = this.game.time.now + 2000;
 		}
 	}
 };
@@ -81,7 +77,9 @@ Man.prototype.update = function (avoidMes) {
 		// dies
 		for (var i = 0; i < avoidMes.length; i++) {
 			if (boundingBoxCollision(avoidMes[i].x, avoidMes[i].y, this.player.position.x, this.player.position.y, 50)) {
-				this.harm(this.eggDamage);
+				if(!this.dead) {
+					this.harm(this.eggDamage);
+				}
 				avoidMes[i].kill();
 				break;
 			}
