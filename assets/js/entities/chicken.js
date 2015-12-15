@@ -79,6 +79,9 @@ Chicken = function(index, x, y, game) {
   this.fattenButton = this.game.input.keyboard.addKey(Phaser.Keyboard.CONTROL);
   // time window
   this.fatTime = 0;
+
+  // Sounds
+  this.hitSound = game.add.audio('hit');
 }
 
 Chicken.prototype.initializeSprite = function(x, y, index){
@@ -161,6 +164,8 @@ Chicken.prototype.avoidObstacle = function() {
 
 // checks key presses and positions
 Chicken.prototype.update = function(avoidMes /* array of things to avoid */ , ground_level) {
+  // Track whether a hit has occurred this frame.
+  var hit = false;
 
   if (!this.dead) {
 
@@ -181,11 +186,18 @@ Chicken.prototype.update = function(avoidMes /* array of things to avoid */ , gr
           if (boundingBoxCollision(
               avoidMes[i].x, avoidMes[i].y,
               this.body.position.x, this.body.position.y, 50)) {
-            this.fatten()
-            avoidMes[i].kill()
+            if(!hit) {
+              hit = true;
+            }
+            this.fatten();
+            avoidMes[i].kill();
           }
         }
       }
+    }
+
+    if(hit && !this.hitSound.isPlaying) {
+      this.hitSound.play();
     }
 
     if (Math.abs(this.stepSize) > 0) {

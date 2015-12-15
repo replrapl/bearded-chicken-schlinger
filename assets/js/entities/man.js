@@ -22,7 +22,7 @@ Man = function (game, x, y) {
 	this.foods.physicsBodyType = Phaser.Physics.ARCADE;
 	this.foods.createMultiple(5, 'corn');
 
-  for(var i = 0 ; i < this.foods.children.length ; i++){
+  for(var i = 0 ; i < this.foods.children.length; i++) {
     this.foods.children[i].animations.add('corn_schling');
     this.foods.children[i].animations.play('corn_schling', 25, true);
     this.foods.children[i].scale.setTo(0.2, 0.2)
@@ -81,11 +81,10 @@ Man.prototype.update = function (avoidMes) {
 		// dies
 		for (var i = 0; i < avoidMes.length; i++) {
       if(avoidMes[i].alive){
-  			if (boundingBoxCollision(
-  					avoidMes[i].x, avoidMes[i].y,
-  					this.player.position.x, this.player.position.y, 50)) {
+  			if (boundingBoxCollision(avoidMes[i].x, avoidMes[i].y, this.player.position.x, this.player.position.y, 50)) {
   				this.harm(this.eggDamage);
-  				avoidMes[i].kill()
+  				avoidMes[i].kill();
+  				break;
   			}
       }
 		}
@@ -122,6 +121,13 @@ Man.prototype.update = function (avoidMes) {
 		this.windup = 0;
 		// console.log("DONE")
 	}
+
+	// Remove foods that hit the ground
+	for(var i = 0 ; i < this.foods.children.length; i++) {
+    if(this.foods.children[i].position.y > GROUND_LEVEL - 45) {
+    	this.foods.children[i].kill();
+    }
+  }
 };
 
 Man.prototype.schling = function (velocity) {
