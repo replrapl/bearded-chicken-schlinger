@@ -221,7 +221,6 @@ Chicken.prototype.update = function(avoidMes /* array of things to avoid */ , gr
       }
 
       if(this.eggs.children[i].position.y > ground_level + 20){
-        console.log('dklfdsal;afdkl;')
         this.eggs.children[i].body.velocity.y = 0;
         this.eggs.children[i].kill();
       }
